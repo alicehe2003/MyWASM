@@ -7,10 +7,10 @@ LDIR =../lib
 
 LIBS=
 
-_DEPS = 									# header files (separated by space)
+_DEPS = Parser.hpp CmdLineRepl.hpp									# header files (separated by space)
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o								# .o files 
+_OBJ = main.o Parser.o CmdLineRepl.o								# .o files 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp $(DEPS)
