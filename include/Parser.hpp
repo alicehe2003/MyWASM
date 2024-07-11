@@ -1,5 +1,4 @@
-#ifndef PARSER_H
-#define PARSER_H
+#pragma once
 
 class Parser {
     public: 
@@ -10,5 +9,3 @@ class Parser {
 
 
 };
-
-#endif 

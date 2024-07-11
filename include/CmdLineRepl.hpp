@@ -1,5 +1,4 @@
-#ifndef CMDLINEREPL_H
-#define CMDLINEREPL_H
+#pragma once
 
 #include "Parser.hpp"
 
@@ -15,4 +14,4 @@ class CmdLineRepl {
 
 }; 
 
-#endif
+
