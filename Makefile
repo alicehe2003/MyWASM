@@ -1,10 +1,11 @@
-IDIR =../include
+IDIR=include
 CC=clang++
 CFLAGS=-I$(IDIR) -I$(BOOST_INCLUDE_DIR) -std=c++20
 LDFLAGS = -L$(BOOST_LIB_DIR) $(BOOST_LIBS)
 
-ODIR=../obj
-LDIR =../lib
+ODIR=obj
+LDIR=lib 
+SRCDIR=src
 
 # Specify the Boost include directory (update this path to your Boost include path)
 BOOST_INCLUDE_DIR = /opt/homebrew/opt/boost/include
@@ -21,7 +22,7 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ = main.o Parser.o CmdLineRepl.o Interpreter.o State.o ArithInstr.o ConstInstr.o LoadInstr.o SizeInstr.o StoreInstr.o				# .o files 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-$(ODIR)/%.o: %.cpp $(DEPS)
+$(ODIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 %.o: %.cpp $(DEPS)
