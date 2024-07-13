@@ -9,3 +9,4 @@ Data ConstInstr::getData() {
 DataType ConstInstr::getDataType() {
     return this->data.getDataType(); 
 } 
+
