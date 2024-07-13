@@ -4,12 +4,14 @@
 
 /**
  * @brief Types of arithmetic operations allowed. 
+ * 
+ * Note: Div_s stands for signed division (as opposed to unsigned). 
  */
 enum ArithOpType {
     Add, 
     Sub, 
     Mult, 
-    Div
+    Div_s 
 }; 
 
 /**
