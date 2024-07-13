@@ -12,9 +12,14 @@ class State {
          */
         int size(); 
 
-        void store(int offset, int index, Data value); 
+        void storeInMemory(int offset, int index, Data value); 
 
-        Data load(int offset, int index, DataType dataType); 
+        Data loadFromMemory(int offset, int index, DataType dataType); 
+
+        void pushToStack(Data value); 
+
+        // get element at top of stack and remove the element 
+        Data getFromStack(DataType dataType); 
 
     private: 
         // Statically allocated memory with 1MB of available space 

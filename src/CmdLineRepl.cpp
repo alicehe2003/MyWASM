@@ -13,6 +13,9 @@ void CmdLineRepl::run() {
     while (true) {
         std::string input; 
         std::getline(std::cin, input); 
+        if (input == "end") {
+            break; 
+        }
         Instruction* instruction = parser->parse(input); 
         if (instruction != nullptr) {
             std::cout << "instruction address: " << instruction << std::endl; 

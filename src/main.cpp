@@ -3,7 +3,7 @@
 using namespace std;
 
 int main () {
-    cout << "HelloWorld!" << endl;
+    cout << "Input WebAssembly command, 'end' to end program. " << endl;
 
     CmdLineRepl repl; 
     repl.run(); 

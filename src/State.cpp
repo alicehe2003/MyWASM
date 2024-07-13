@@ -9,7 +9,7 @@ int State::size() {
     return sizeof(heap); 
 }
 
-void State::store(int offset, int index, Data value) {
+void State::storeInMemory(int offset, int index, Data value) {
     DataType dataType = value.getDataType(); 
 
     switch (dataType) {
@@ -29,7 +29,7 @@ void State::store(int offset, int index, Data value) {
     }
 }
 
-Data State::load(int offset, int index, DataType dataType) {
+Data State::loadFromMemory(int offset, int index, DataType dataType) {
     Data data(dataType); 
 
     switch (dataType) {
@@ -45,6 +45,39 @@ Data State::load(int offset, int index, DataType dataType) {
                 } else {
                     // throw error: memory out of bound 
                 } 
+            }
+            data.setDataVal(dataVal);
+            break; 
+    }
+
+    return data; 
+}
+
+void State::pushToStack(Data value) {
+    DataType dataType = value.getDataType(); 
+
+    switch (dataType) {
+        case i32: 
+        case u32: 
+            for (int i = 0; i < 4; i++) {
+                uint8_t bt = value.getDataVal()[i]; 
+                stk.push(bt); 
+            }
+        break; 
+    }
+}
+
+Data State::getFromStack(DataType dataType) {
+    Data data(dataType); 
+
+    switch (dataType) {
+        case i32:
+        case u32:
+            std::vector<uint8_t> dataVal; 
+            for (int i = 0; i < 4; i++) {
+                uint8_t bt = stk.top();
+                stk.pop(); 
+                dataVal.push_back(bt); 
             }
             data.setDataVal(dataVal);
             break; 
