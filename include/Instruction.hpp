@@ -40,17 +40,21 @@ class Data {
         template <typename T>
         void setDataVal(T val) {
             dataVal.clear();
-            for (size_t i = 0; i < sizeof(T); ++i) {
+            for (size_t i = 0; i < sizeof(T); i++) {
                 uint8_t byte = (val >> (i * 8)) & 0xFF;
                 dataVal.push_back(byte);
             }
         }
 
-        std::vector<u_int8_t> getDataVal() {
+        void setDataVal(std::vector<uint8_t> dataVal) {
+            this->dataVal = dataVal; 
+        }
+
+        std::vector<uint8_t> getDataVal() {
             return dataVal; 
         }
 
     private: 
-        std::vector<u_int8_t> dataVal; 
+        std::vector<uint8_t> dataVal; 
         DataType dataType; 
 }; 
