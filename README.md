@@ -7,7 +7,7 @@ https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
 Doxygen: 
 https://pages.cs.wisc.edu/~jignesh/cs564/notes/Doxygen.pdf 
 
-Boost (C++ librairie documentation): 
+Boost (C++ librairy documentation): 
 https://www.boost.org/doc/libs/1_78_0/libs/spirit/doc/html/index.html 
 
 WebAssembly instruction reference: 

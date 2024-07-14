@@ -19,10 +19,10 @@ class State {
         void pushToStack(Data value); 
 
         // get element at top of stack and remove the element 
-        Data getFromStack(DataType dataType); 
+        Data getFromStack(); 
 
     private: 
         // Statically allocated memory with 1MB of available space 
         uint8_t heap[1024 * 1024]; 
-        std::stack<uint8_t> stk; 
+        std::stack<Data> stk; 
 }; 

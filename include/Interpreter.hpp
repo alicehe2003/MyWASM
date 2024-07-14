@@ -10,6 +10,9 @@ class Interpreter {
     public: 
         Interpreter(State* state); 
 
+        template <typename T>
+        T interpretData(Data& data); 
+
         void interpretConst(ConstInstr instruction); 
 
         void interpretArith(ArithInstr instruction); 

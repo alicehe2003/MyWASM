@@ -54,34 +54,11 @@ Data State::loadFromMemory(int offset, int index, DataType dataType) {
 }
 
 void State::pushToStack(Data value) {
-    DataType dataType = value.getDataType(); 
-
-    switch (dataType) {
-        case i32: 
-        case u32: 
-            for (int i = 0; i < 4; i++) {
-                uint8_t bt = value.getDataVal()[i]; 
-                stk.push(bt); 
-            }
-        break; 
-    }
+    stk.push(value); 
 }
 
-Data State::getFromStack(DataType dataType) {
-    Data data(dataType); 
-
-    switch (dataType) {
-        case i32:
-        case u32:
-            std::vector<uint8_t> dataVal; 
-            for (int i = 0; i < 4; i++) {
-                uint8_t bt = stk.top();
-                stk.pop(); 
-                dataVal.push_back(bt); 
-            }
-            data.setDataVal(dataVal);
-            break; 
-    }
-
-    return data; 
+Data State::getFromStack() {
+    Data value = stk.top(); 
+    stk.pop(); 
+    return value; 
 }
