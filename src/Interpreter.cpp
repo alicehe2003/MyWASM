@@ -115,13 +115,28 @@ void Interpreter::interpretArith(ArithInstr instruction) {
 }
 
 void Interpreter::interpretSize(SizeInstr instruction) {
-
+    Data sizeData(u32);
+    sizeData.setDataVal(state->size()); 
+    state->pushToStack(sizeData);  
 }
 
 void Interpreter::interpretLoad(LoadInstr instruction) {
-
+    Data dataOffset = state->getFromStack(); 
+    int offset = interpretData<int>(dataOffset); 
+    
+    Data valueInMemory = state->loadFromMemory(offset, instruction.getIndex(), instruction.getDataType()); 
+    state->pushToStack(valueInMemory); 
 }
 
 void Interpreter::interpretStore(StoreInstr instruction) {
+    Data dataVal = state->getFromStack(); 
+    Data dataOffset = state->getFromStack(); 
+    int offset = interpretData<int>(dataOffset); 
+    
+    DataType instructionDataType = instruction.getDataType(); 
+    if (instructionDataType != dataVal.getDataType()) {
+        // throw error: data type mismatch
+    }
 
+    state->storeInMemory(offset, instruction.getIndex(), dataVal); 
 }

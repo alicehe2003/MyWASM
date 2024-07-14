@@ -4,10 +4,13 @@
 
 class StoreInstr : public Instruction {
     public: 
-        StoreInstr(int index); 
+        StoreInstr(int index, DataType dataType); 
 
         int getIndex(); 
 
+        DataType getDataType(); 
+
     private: 
         int index; 
+        DataType dataType; 
 }; 

@@ -72,9 +72,9 @@ Instruction* Parser::parse(const std::string& str) {
         } else if (match[2] == "div_s") {
             instruction = new ArithInstr(Div_s, dataType); 
         } else if (match[2] == "load") {
-            instruction = new LoadInstr(0); 
+            instruction = new LoadInstr(0, dataType); 
         } else if (match[2] == "store") {
-            instruction = new StoreInstr(0); 
+            instruction = new StoreInstr(0, dataType); 
         } else {
             // throw error 
         }
@@ -103,9 +103,9 @@ Instruction* Parser::parse(const std::string& str) {
         int index = std::stoi(match[3]); 
 
         if (match[2] == "load") {
-            instruction = new LoadInstr(index); 
+            instruction = new LoadInstr(index, dataType); 
         } else if (match[2] == "store") {
-            instruction = new StoreInstr(index); 
+            instruction = new StoreInstr(index, dataType); 
         } else {
             // throw error 
         }

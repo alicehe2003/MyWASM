@@ -4,10 +4,13 @@
 
 class LoadInstr : public Instruction {
     public: 
-        LoadInstr(int index); 
+        LoadInstr(int index, DataType dataType); 
 
         int getIndex(); 
 
+        DataType getDataType(); 
+        
     private: 
         int index; 
+        DataType dataType; 
 }; 
