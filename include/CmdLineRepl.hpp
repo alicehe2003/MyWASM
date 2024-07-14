@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Parser.hpp"
+#include "Interpreter.hpp"
+#include "State.hpp"
 
 class CmdLineRepl {
     public: 
@@ -11,7 +13,7 @@ class CmdLineRepl {
     
     private: 
         Parser* parser; 
-        
+        Interpreter* interpreter; 
 }; 
 
 

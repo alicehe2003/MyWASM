@@ -7,7 +7,6 @@ int main () {
 
     CmdLineRepl repl; 
     repl.run(); 
-    repl.~CmdLineRepl(); 
 
     return 0; 
 }

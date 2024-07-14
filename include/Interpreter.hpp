@@ -17,15 +17,15 @@ class Interpreter {
         template <typename T>
         T getValidData(Data& data); 
 
-        void interpretConst(ConstInstr instruction); 
+        void interpretConst(ConstInstr* instruction); 
 
-        void interpretArith(ArithInstr instruction); 
+        void interpretArith(ArithInstr* instruction); 
 
-        void interpretSize(SizeInstr instruction); 
+        void interpretSize(SizeInstr* instruction); 
 
-        void interpretLoad(LoadInstr instruction); 
+        void interpretLoad(LoadInstr* instruction); 
 
-        void interpretStore(StoreInstr instruction); 
+        void interpretStore(StoreInstr* instruction); 
 
     private: 
         State* state; 

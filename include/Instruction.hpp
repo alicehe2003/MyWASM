@@ -8,7 +8,14 @@
  * @author Alice He 
  */
 class Instruction {
+    public: 
+        std::string getActualType() {
+            return actualType; 
+        }
 
+    protected: 
+        std::string actualType; 
+        Instruction(const std::string type) : actualType(type) {}; 
 }; 
 
 /**

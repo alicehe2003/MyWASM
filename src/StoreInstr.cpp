@@ -1,9 +1,7 @@
 #include "StoreInstr.hpp"
 
-StoreInstr::StoreInstr(int index, DataType dataType) {
-    this->index = index; 
-    this->dataType = dataType; 
-}
+StoreInstr::StoreInstr(int index, DataType dataType) 
+    : Instruction("StoreInstr"), index(index), dataType(dataType) {}; 
 
 int StoreInstr::getIndex() {
     return this->index; 

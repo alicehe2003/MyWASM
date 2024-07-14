@@ -39,13 +39,13 @@ T Interpreter::getValidData(Data& data) {
     return value; 
 }
 
-void Interpreter::interpretConst(ConstInstr instruction) {
-    state->pushToStack(instruction.getData()); 
+void Interpreter::interpretConst(ConstInstr* instruction) {
+    state->pushToStack(instruction->getData()); 
 }
 
-void Interpreter::interpretArith(ArithInstr instruction) {
-    ArithOpType opType = instruction.getArithOpType(); 
-    DataType dataType = instruction.getDatatType(); 
+void Interpreter::interpretArith(ArithInstr* instruction) {
+    ArithOpType opType = instruction->getArithOpType(); 
+    DataType dataType = instruction->getDatatType(); 
 
     // get 2 numbers from top of stack 
     Data data2 = state->getFromStack(); 
@@ -129,29 +129,29 @@ void Interpreter::interpretArith(ArithInstr instruction) {
     state->pushToStack(result); 
 }
 
-void Interpreter::interpretSize(SizeInstr instruction) {
+void Interpreter::interpretSize(SizeInstr* instruction) {
     Data sizeData(u32);
     sizeData.setDataVal(state->size()); 
     state->pushToStack(sizeData);  
 }
 
-void Interpreter::interpretLoad(LoadInstr instruction) {
+void Interpreter::interpretLoad(LoadInstr* instruction) {
     Data dataOffset = state->getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
     
-    Data valueInMemory = state->loadFromMemory(offset, instruction.getIndex(), instruction.getDataType()); 
+    Data valueInMemory = state->loadFromMemory(offset, instruction->getIndex(), instruction->getDataType()); 
     state->pushToStack(valueInMemory); 
 }
 
-void Interpreter::interpretStore(StoreInstr instruction) {
+void Interpreter::interpretStore(StoreInstr* instruction) {
     Data dataVal = state->getFromStack(); 
     Data dataOffset = state->getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
     
-    DataType instructionDataType = instruction.getDataType(); 
+    DataType instructionDataType = instruction->getDataType(); 
     if (instructionDataType != dataVal.getDataType()) {
         // throw error: data type mismatch
     }
 
-    state->storeInMemory(offset, instruction.getIndex(), dataVal); 
+    state->storeInMemory(offset, instruction->getIndex(), dataVal); 
 }

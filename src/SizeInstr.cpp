@@ -1,5 +1,3 @@
 #include "SizeInstr.hpp"
 
-SizeInstr::SizeInstr() {
-    
-}
+SizeInstr::SizeInstr() : Instruction("SizeInstr") {}; 

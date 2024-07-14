@@ -2,8 +2,11 @@
 #include <string>
 #include <iostream>
 #include "Parser.hpp"
+#include "Interpreter.hpp"
+#include "State.hpp"
 
-CmdLineRepl::CmdLineRepl() : parser(new Parser()) {}; 
+CmdLineRepl::CmdLineRepl() 
+    : parser(new Parser()), interpreter(new Interpreter(new State())) {}; 
 
 CmdLineRepl::~CmdLineRepl() {
     delete parser; 
@@ -17,9 +20,9 @@ void CmdLineRepl::run() {
             break; 
         }
         Instruction* instruction = parser->parse(input); 
-        if (instruction != nullptr) {
-            std::cout << "instruction address: " << instruction << std::endl; 
-            std::cout << input << std::endl; 
+        if (instruction->getActualType() == "ArithInstr") {
+            std::cout << "ArithInstr" << std::endl; 
         }
+        
     }
 }
