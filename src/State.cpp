@@ -22,7 +22,7 @@ void State::storeInMemory(int offset, int index, Data value) {
                 if (position < sizeof(heap)) {
                     heap[position] = bt; 
                 } else {
-                    // throw error: memory out of bound 
+                    throw StateError::MemoryOutOfBoundError; 
                 }
             }
         break; 
@@ -43,7 +43,7 @@ Data State::loadFromMemory(int offset, int index, DataType dataType) {
                     uint8_t bt = heap[position]; 
                     dataVal.push_back(bt);  
                 } else {
-                    // throw error: memory out of bound 
+                    throw StateError::MemoryOutOfBoundError; 
                 } 
             }
             data.setDataVal(dataVal);

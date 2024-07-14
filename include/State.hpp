@@ -26,3 +26,7 @@ class State {
         uint8_t heap[1024 * 1024]; 
         std::stack<Data> stk; 
 }; 
+
+enum class StateError {
+    MemoryOutOfBoundError
+}; 

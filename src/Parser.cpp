@@ -31,7 +31,7 @@ Instruction* Parser::parse(const std::string& str) {
         } else if (match[1] == "u32") {
             dataType = u32; 
         } else {
-            // throw error 
+            // throw error: invalid data type 
         }
 
         Data data(dataType); 
@@ -42,13 +42,13 @@ Instruction* Parser::parse(const std::string& str) {
             uint32_t val = static_cast<uint32_t>(std::stoi(match[3])); 
             data.setDataVal(val); 
         } else {
-            // throw error 
+            // throw error: invalid data type 
         }
 
         if (match[2] == "const") {
             instruction = new ConstInstr(data); 
         } else {
-            // throw error 
+            // throw error: invalid op code 
         }
 
     } else if (boost::regex_match(str, match, regex_instruction)) {
@@ -60,7 +60,7 @@ Instruction* Parser::parse(const std::string& str) {
         } else if (match[1] == "u32") {
             dataType = u32; 
         } else {
-            // throw error 
+            // throw error: invalid data type 
         } 
 
         if (match[2] == "add") {
@@ -76,7 +76,7 @@ Instruction* Parser::parse(const std::string& str) {
         } else if (match[2] == "store") {
             instruction = new StoreInstr(0, dataType); 
         } else {
-            // throw error 
+            // throw error: invalid op code 
         }
  
     } else if (boost::regex_match(str, match, regex_memory_size_instruction)) {
@@ -97,7 +97,7 @@ Instruction* Parser::parse(const std::string& str) {
         } else if (match[1] == "u32") {
             dataType = u32; 
         } else {
-            // throw error 
+            // throw error: invalid data type 
         } 
 
         int index = std::stoi(match[3]); 
@@ -107,11 +107,11 @@ Instruction* Parser::parse(const std::string& str) {
         } else if (match[2] == "store") {
             instruction = new StoreInstr(index, dataType); 
         } else {
-            // throw error 
+            // throw error: invalid op code 
         }
 
     } else {
-        // throw error 
+        // throw error: invalid assembly command 
     }
 
     return instruction; 
