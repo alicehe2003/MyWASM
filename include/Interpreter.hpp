@@ -5,13 +5,17 @@
 #include "LoadInstr.hpp"
 #include "SizeInstr.hpp"
 #include "StoreInstr.hpp"
+#include "Instruction.hpp"
 
 class Interpreter {
     public: 
         Interpreter(State* state); 
 
         template <typename T>
-        T interpretData(Data& data); 
+        std::expected<T, DataError> interpretData(Data& data);
+
+        template <typename T>
+        T getValidData(Data& data); 
 
         void interpretConst(ConstInstr instruction); 
 

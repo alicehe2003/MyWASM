@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <vector>
+#include <expected>
 
 /**
  * @brief Instructions allowed by this WASM. 
@@ -57,4 +58,8 @@ class Data {
     private: 
         std::vector<uint8_t> dataVal; 
         DataType dataType; 
+}; 
+
+enum class DataError {
+    InvalidDataError
 }; 

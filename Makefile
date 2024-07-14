@@ -1,6 +1,6 @@
 IDIR=include
 CC=clang++
-CFLAGS=-I$(IDIR) -I$(BOOST_INCLUDE_DIR) -std=c++20
+CFLAGS=-I$(IDIR) -I$(BOOST_INCLUDE_DIR) -std=c++2b
 LDFLAGS = -L$(BOOST_LIB_DIR) $(BOOST_LIBS)
 
 ODIR=obj

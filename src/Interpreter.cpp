@@ -5,15 +5,17 @@
 #include "LoadInstr.hpp"
 #include "SizeInstr.hpp"
 #include "StoreInstr.hpp"
+#include <expected>
+#include <iostream>
 
 Interpreter::Interpreter(State* state) {
     this->state = state; 
 }
 
 template <typename T> 
-T Interpreter::interpretData(Data& data) {
+std::expected<T, DataError> Interpreter::interpretData(Data& data) {
     if (data.getDataVal().size() != sizeof(T)) {
-        // throw error: data type mismatch 
+        return std::unexpected(DataError::InvalidDataError);
     }
 
     T value = 0; 
@@ -21,6 +23,19 @@ T Interpreter::interpretData(Data& data) {
         value |= (static_cast<T>(data.getDataVal()[i]) << (i * 8)); 
     }
 
+    return value; 
+}
+
+template <typename T>
+T Interpreter::getValidData(Data& data) {
+    auto result = interpretData<T>(data); 
+    T value; 
+    if (result.error() == DataError::InvalidDataError) {
+        std::cerr << "Invalid data error" << std::endl; 
+    }
+    if (result.has_value()) {
+        value = result.value(); 
+    } 
     return value; 
 }
 
@@ -48,14 +63,14 @@ void Interpreter::interpretArith(ArithInstr instruction) {
         case Add:
             switch(data1.getDataType()) {
                 case i32: {
-                    value1 = interpretData<int32_t>(data1); 
-                    value2 = interpretData<int32_t>(data2); 
+                    value1 = getValidData<int32_t>(data1); 
+                    value2 = getValidData<int32_t>(data2); 
                     result.setDataVal(value1 + value2); 
                     break; 
                 }
                 case u32: {
-                    value1 = interpretData<uint32_t>(data1); 
-                    value2 = interpretData<uint32_t>(data2); 
+                    value1 = getValidData<uint32_t>(data1); 
+                    value2 = getValidData<uint32_t>(data2); 
                     result.setDataVal(value1 + value2); 
                     break; 
                 }
@@ -64,14 +79,14 @@ void Interpreter::interpretArith(ArithInstr instruction) {
         case Sub: 
             switch(data1.getDataType()) {
                 case i32: {
-                    value1 = interpretData<int32_t>(data1); 
-                    value2 = interpretData<int32_t>(data2); 
+                    value1 = getValidData<int32_t>(data1); 
+                    value2 = getValidData<int32_t>(data2); 
                     result.setDataVal(value1 - value2); 
                     break; 
                 }
                 case u32: {
-                    value1 = interpretData<uint32_t>(data1); 
-                    value2 = interpretData<uint32_t>(data2); 
+                    value1 = getValidData<uint32_t>(data1); 
+                    value2 = getValidData<uint32_t>(data2); 
                     result.setDataVal(value1 - value2); 
                     break; 
                 }
@@ -80,14 +95,14 @@ void Interpreter::interpretArith(ArithInstr instruction) {
         case Mult: 
             switch(data1.getDataType()) {
                 case i32: {
-                    value1 = interpretData<int32_t>(data1); 
-                    value2 = interpretData<int32_t>(data2); 
+                    value1 = getValidData<int32_t>(data1); 
+                    value2 = getValidData<int32_t>(data2); 
                     result.setDataVal(value1 * value2); 
                     break; 
                 }
                 case u32: {
-                    value1 = interpretData<uint32_t>(data1); 
-                    value2 = interpretData<uint32_t>(data2); 
+                    value1 = getValidData<uint32_t>(data1); 
+                    value2 = getValidData<uint32_t>(data2); 
                     result.setDataVal(value1 * value2); 
                     break; 
                 }
@@ -96,14 +111,14 @@ void Interpreter::interpretArith(ArithInstr instruction) {
         case Div_s:
             switch(data1.getDataType()) {
                 case i32: {
-                    value1 = interpretData<int32_t>(data1); 
-                    value2 = interpretData<int32_t>(data2); 
+                    value1 = getValidData<int32_t>(data1); 
+                    value2 = getValidData<int32_t>(data2); 
                     result.setDataVal(value1 / value2); 
                     break; 
                 }
                 case u32: {
-                    value1 = interpretData<uint32_t>(data1); 
-                    value2 = interpretData<uint32_t>(data2); 
+                    value1 = getValidData<uint32_t>(data1); 
+                    value2 = getValidData<uint32_t>(data2); 
                     result.setDataVal(value1 / value2); 
                     break; 
                 }
@@ -122,7 +137,7 @@ void Interpreter::interpretSize(SizeInstr instruction) {
 
 void Interpreter::interpretLoad(LoadInstr instruction) {
     Data dataOffset = state->getFromStack(); 
-    int offset = interpretData<int>(dataOffset); 
+    int offset = getValidData<int>(dataOffset); 
     
     Data valueInMemory = state->loadFromMemory(offset, instruction.getIndex(), instruction.getDataType()); 
     state->pushToStack(valueInMemory); 
@@ -131,7 +146,7 @@ void Interpreter::interpretLoad(LoadInstr instruction) {
 void Interpreter::interpretStore(StoreInstr instruction) {
     Data dataVal = state->getFromStack(); 
     Data dataOffset = state->getFromStack(); 
-    int offset = interpretData<int>(dataOffset); 
+    int offset = getValidData<int>(dataOffset); 
     
     DataType instructionDataType = instruction.getDataType(); 
     if (instructionDataType != dataVal.getDataType()) {
