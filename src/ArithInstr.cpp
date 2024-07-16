@@ -2,7 +2,7 @@
 #include "Instruction.hpp"
 
 ArithInstr::ArithInstr(ArithOpType opType, DataType dataType) 
-    : Instruction("ArithInstr"), opType(opType), dataType(dataType) {}; 
+    : opType(opType), dataType(dataType) {}; 
 
 ArithOpType ArithInstr::getArithOpType() {
     return this->opType; 

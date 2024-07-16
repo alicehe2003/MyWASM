@@ -39,13 +39,17 @@ T Interpreter::getValidData(Data& data) {
     return value; 
 }
 
-void Interpreter::interpretConst(ConstInstr* instruction) {
-    state->pushToStack(instruction->getData()); 
+void Interpreter::interpretConst(ConstInstr* instruction) { 
+    ConstInstr* constInstr = static_cast<ConstInstr*>(instruction); 
+    state->pushToStack(constInstr->getData()); 
 }
 
 void Interpreter::interpretArith(ArithInstr* instruction) {
-    ArithOpType opType = instruction->getArithOpType(); 
-    DataType dataType = instruction->getDatatType(); 
+
+    ArithInstr* arithInstr = static_cast<ArithInstr*>(instruction); 
+
+    ArithOpType opType = arithInstr->getArithOpType(); 
+    DataType dataType = arithInstr->getDatatType(); 
 
     // get 2 numbers from top of stack 
     Data data2 = state->getFromStack(); 
@@ -136,22 +140,27 @@ void Interpreter::interpretSize(SizeInstr* instruction) {
 }
 
 void Interpreter::interpretLoad(LoadInstr* instruction) {
+
+    LoadInstr* loadInstr = static_cast<LoadInstr*>(instruction); 
+
     Data dataOffset = state->getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
     
-    Data valueInMemory = state->loadFromMemory(offset, instruction->getIndex(), instruction->getDataType()); 
+    Data valueInMemory = state->loadFromMemory(offset, loadInstr->getIndex(), loadInstr->getDataType()); 
     state->pushToStack(valueInMemory); 
 }
 
 void Interpreter::interpretStore(StoreInstr* instruction) {
+    StoreInstr* storeInstr = static_cast<StoreInstr*>(instruction); 
+
     Data dataVal = state->getFromStack(); 
     Data dataOffset = state->getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
     
-    DataType instructionDataType = instruction->getDataType(); 
+    DataType instructionDataType = storeInstr->getDataType(); 
     if (instructionDataType != dataVal.getDataType()) {
         // throw error: data type mismatch
     }
 
-    state->storeInMemory(offset, instruction->getIndex(), dataVal); 
+    state->storeInMemory(offset, storeInstr->getIndex(), dataVal); 
 }

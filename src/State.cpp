@@ -1,5 +1,6 @@
 #include "State.hpp"
 #include "Instruction.hpp"
+#include <iostream>
 
 State::State() {
 

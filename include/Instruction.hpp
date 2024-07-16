@@ -3,19 +3,14 @@
 #include <vector>
 #include <expected>
 
+#include <iostream> 
+
 /**
  * @brief Instructions allowed by this WASM. 
  * @author Alice He 
  */
 class Instruction {
     public: 
-        std::string getActualType() {
-            return actualType; 
-        }
-
-    protected: 
-        std::string actualType; 
-        Instruction(const std::string type) : actualType(type) {}; 
 }; 
 
 /**
@@ -32,16 +27,19 @@ class Data {
             this->dataType = dataType; 
 
             switch(dataType) {
-                case i32:
+                case i32: 
+                    std::cout<< "Data type: i32" << std::endl; 
                     dataVal.resize(4); 
                     break; 
                 case u32:
+                    std::cout<< "Data type: u32" << std::endl; 
                     dataVal.resize(4); 
                     break; 
             }
         }
 
         DataType getDataType() {
+            std::cout<< "Data type: " << dataType << std::endl; 
             return dataType; 
         }
 
@@ -49,16 +47,29 @@ class Data {
         void setDataVal(T val) {
             dataVal.clear();
             for (size_t i = 0; i < sizeof(T); i++) {
-                uint8_t byte = (val >> (i * 8)) & 0xFF;
+                uint8_t byte = (val >> (i * 8)) & 0xFF; 
+
+                std::cout<< "Bytes of data: " << byte; 
+
                 dataVal.push_back(byte);
             }
         }
 
         void setDataVal(std::vector<uint8_t> dataVal) {
+            
+            for (uint8_t d : dataVal) {
+                std::cout<< "Bytes of data: " << d; 
+            }
+
             this->dataVal = dataVal; 
         }
 
         std::vector<uint8_t> getDataVal() {
+
+            for (uint8_t d : dataVal) {
+                std::cout<< "Bytes of data: " << d; 
+            }
+
             return dataVal; 
         }
 

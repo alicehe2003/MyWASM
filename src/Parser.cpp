@@ -87,10 +87,6 @@ Instruction* Parser::parse(const std::string& str) {
     } else if (boost::regex_match(str, match, regex_memory_instruction)) {
         // Match form: i32.load (memory 5), i32.store (memory 5)
 
-        // match[1] is data type string 
-        // match[2] is instruction string 
-        // match[3] is data value string
-
         DataType dataType; 
         if (match[1] == "i32") {
             dataType = i32; 
@@ -112,6 +108,8 @@ Instruction* Parser::parse(const std::string& str) {
 
     } else {
         // throw error: invalid assembly command 
+
+        std::cout << "Invalid assembly command. " << std::endl; 
     }
 
     return instruction; 
