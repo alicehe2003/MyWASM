@@ -13,6 +13,6 @@ class Parser {
          * 
          * @return The correct Instruction object representation of str. 
          */
-        Instruction* parse(const std::string& str); 
+       Instruction parse(const std::string& str); 
 }; 
 

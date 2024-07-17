@@ -12,7 +12,7 @@ Parser::Parser() {
 
 }
 
-Instruction* Parser::parse(const std::string& str) {
+Instruction Parser::parse(const std::string& str) {
     // Define regex patterns for acceptable forms 
     boost::regex regex_instruction_val(R"(^(i32)\.(const) (\d+)$)");
     boost::regex regex_instruction(R"(^(i32)\.(add|sub|mul|div_s|load|store)$)");
@@ -20,7 +20,6 @@ Instruction* Parser::parse(const std::string& str) {
     boost::regex regex_memory_instruction(R"(^(i32)\.(load|store) \(memory (\d+)\)$)");
 
     boost::smatch match; 
-    Instruction* instruction; 
 
     if (boost::regex_match(str, match, regex_instruction_val)) {
         // Match form: i32.const 5 
@@ -46,7 +45,8 @@ Instruction* Parser::parse(const std::string& str) {
         }
 
         if (match[2] == "const") {
-            instruction = new Instruction(ConstInstr(data)); 
+            Instruction instruction = Instruction(ConstInstr(data)); 
+            return instruction; 
         } else {
             // throw error: invalid op code 
         }
@@ -64,17 +64,23 @@ Instruction* Parser::parse(const std::string& str) {
         } 
 
         if (match[2] == "add") {
-            instruction = new Instruction(ArithInstr(Add, dataType)); 
+            Instruction instruction = Instruction(ArithInstr(Add, dataType)); 
+            return instruction; 
         } else if (match[2] == "sub") {
-            instruction = new Instruction(ArithInstr(Sub, dataType)); 
+            Instruction instruction = Instruction(ArithInstr(Sub, dataType)); 
+            return instruction; 
         } else if (match[2] == "mul") {
-            instruction = new Instruction(ArithInstr(Mult, dataType)); 
+            Instruction instruction = Instruction(ArithInstr(Mult, dataType)); 
+            return instruction; 
         } else if (match[2] == "div_s") {
-            instruction = new Instruction(ArithInstr(Div_s, dataType)); 
+            Instruction instruction = Instruction(ArithInstr(Div_s, dataType)); 
+            return instruction; 
         } else if (match[2] == "load") {
-            instruction = new Instruction(LoadInstr(0, dataType)); 
+            Instruction instruction = Instruction(LoadInstr(0, dataType)); 
+            return instruction; 
         } else if (match[2] == "store") {
-            instruction = new Instruction(StoreInstr(0, dataType)); 
+            Instruction instruction = Instruction(StoreInstr(0, dataType)); 
+            return instruction; 
         } else {
             // throw error: invalid op code 
         }
@@ -82,7 +88,8 @@ Instruction* Parser::parse(const std::string& str) {
     } else if (boost::regex_match(str, match, regex_memory_size_instruction)) {
         // Match form: memory.size
 
-        instruction = new Instruction(SizeInstr()); 
+        Instruction instruction = Instruction(SizeInstr()); 
+        return instruction; 
 
     } else if (boost::regex_match(str, match, regex_memory_instruction)) {
         // Match form: i32.load (memory 5), i32.store (memory 5)
@@ -99,9 +106,11 @@ Instruction* Parser::parse(const std::string& str) {
         int index = std::stoi(match[3]); 
 
         if (match[2] == "load") {
-            instruction = new Instruction(LoadInstr(index, dataType)); 
+            Instruction instruction = Instruction(LoadInstr(index, dataType)); 
+            return instruction; 
         } else if (match[2] == "store") {
-            instruction = new Instruction(StoreInstr(index, dataType)); 
+            Instruction instruction = Instruction(StoreInstr(index, dataType)); 
+            return instruction; 
         } else {
             // throw error: invalid op code 
         }
@@ -109,9 +118,7 @@ Instruction* Parser::parse(const std::string& str) {
     } else {
         // throw error: invalid assembly command 
 
-        std::cout << "Invalid assembly command. " << std::endl; 
+        throw std::invalid_argument("Invalid assembly command. "); 
     }
-
-    return instruction; 
 }
 
