@@ -1,14 +1,12 @@
 #include "Interpreter.hpp"
 #include "State.hpp"
-#include "ArithInstr.hpp"
-#include "ConstInstr.hpp"
-#include "LoadInstr.hpp"
-#include "SizeInstr.hpp"
-#include "StoreInstr.hpp"
+#include "Instruction.hpp"
 #include <expected>
 #include <iostream>
+#include <variant> 
+#include <vector> 
 
-Interpreter::Interpreter(State* state) {
+Interpreter::Interpreter(State state) {
     this->state = state; 
 }
 
@@ -39,25 +37,22 @@ T Interpreter::getValidData(Data& data) {
     return value; 
 }
 
-void Interpreter::interpret(Instruction* instruction) {
-
+void Interpreter::interpret(Instruction& instruction) {
+    std::visit([&](auto&& arg){ interpret(arg); }, instruction); 
 }
 
-void Interpreter::interpret(ConstInstr* instruction) { 
-    ConstInstr* constInstr = static_cast<ConstInstr*>(instruction); 
-    state->pushToStack(constInstr->getData()); 
+void Interpreter::interpret(ConstInstr& instruction) { 
+    state.pushToStack(instruction.getData()); 
 }
 
-void Interpreter::interpret(ArithInstr* instruction) {
+void Interpreter::interpret(ArithInstr& instruction) {
 
-    ArithInstr* arithInstr = static_cast<ArithInstr*>(instruction); 
-
-    ArithOpType opType = arithInstr->getArithOpType(); 
-    DataType dataType = arithInstr->getDatatType(); 
+    ArithOpType opType = instruction.getArithOpType(); 
+    DataType dataType = instruction.getDatatType(); 
 
     // get 2 numbers from top of stack 
-    Data data2 = state->getFromStack(); 
-    Data data1 = state->getFromStack(); 
+    Data data2 = state.getFromStack(); 
+    Data data1 = state.getFromStack(); 
     if (data1.getDataType() != data2.getDataType()) {
         // throw error: data type mismatch 
     }
@@ -134,37 +129,32 @@ void Interpreter::interpret(ArithInstr* instruction) {
             break; 
     }
 
-    state->pushToStack(result); 
+    state.pushToStack(result); 
 }
 
-void Interpreter::interpret(SizeInstr* instruction) {
+void Interpreter::interpret(SizeInstr& instruction) {
     Data sizeData(u32);
-    sizeData.setDataVal(state->size()); 
-    state->pushToStack(sizeData);  
+    sizeData.setDataVal(state.size()); 
+    state.pushToStack(sizeData);  
 }
 
-void Interpreter::interpret(LoadInstr* instruction) {
-
-    LoadInstr* loadInstr = static_cast<LoadInstr*>(instruction); 
-
-    Data dataOffset = state->getFromStack(); 
+void Interpreter::interpret(LoadInstr& instruction) {
+    Data dataOffset = state.getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
     
-    Data valueInMemory = state->loadFromMemory(offset, loadInstr->getIndex(), loadInstr->getDataType()); 
-    state->pushToStack(valueInMemory); 
+    Data valueInMemory = state.loadFromMemory(offset, instruction.getIndex(), instruction.getDataType()); 
+    state.pushToStack(valueInMemory); 
 }
 
-void Interpreter::interpret(StoreInstr* instruction) {
-    StoreInstr* storeInstr = static_cast<StoreInstr*>(instruction); 
-
-    Data dataVal = state->getFromStack(); 
-    Data dataOffset = state->getFromStack(); 
+void Interpreter::interpret(StoreInstr& instruction) {
+    Data dataVal = state.getFromStack(); 
+    Data dataOffset = state.getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
     
-    DataType instructionDataType = storeInstr->getDataType(); 
+    DataType instructionDataType = instruction.getDataType(); 
     if (instructionDataType != dataVal.getDataType()) {
         // throw error: data type mismatch
     }
 
-    state->storeInMemory(offset, storeInstr->getIndex(), dataVal); 
+    state.storeInMemory(offset, instruction.getIndex(), dataVal); 
 }

@@ -39,26 +39,16 @@ class Data {
             for (size_t i = 0; i < sizeof(T); i++) {
                 uint8_t byte = (val >> (i * 8)) & 0xFF; 
 
-                std::cout<< "Bytes of data: " << byte; 
-
                 dataVal.push_back(byte);
             }
         }
 
         void setDataVal(std::vector<uint8_t> dataVal) {
-            
-            for (uint8_t d : dataVal) {
-                std::cout<< "Bytes of data: " << d; 
-            }
 
             this->dataVal = dataVal; 
         }
 
         std::vector<uint8_t> getDataVal() {
-
-            for (uint8_t d : dataVal) {
-                std::cout<< "Bytes of data: " << d; 
-            }
 
             return dataVal; 
         }

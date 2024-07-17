@@ -6,7 +6,7 @@
 #include "State.hpp"
 
 CmdLineRepl::CmdLineRepl() 
-    : parser(new Parser()), interpreter(new Interpreter(new State())) {}; 
+    : parser(new Parser()), interpreter(new Interpreter(State())) {}; 
 
 CmdLineRepl::~CmdLineRepl() {
     delete parser; 
@@ -20,6 +20,16 @@ void CmdLineRepl::run() {
     Instruction* const10Instruction = parser->parse(const10Command); 
     Instruction* const3Instruction = parser->parse(const3Command);
     
+    std::string addCommand = "i32.add"; 
+    Instruction* addInstruction = parser->parse(addCommand); 
+
+    interpreter->interpret(*const10Instruction); 
+    interpreter->interpret(*const3Instruction); 
+    interpreter->interpret(*addInstruction); 
+    
+    std::cout<< interpreter->state.heap << std::endl; 
+    Data d = interpreter->state.stk.top(); 
+    std::cout << *(interpreter->interpretData<int>(d)) << std::endl;
 
 
     /*

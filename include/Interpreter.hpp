@@ -9,7 +9,7 @@
 
 class Interpreter {
     public: 
-        Interpreter(State* state); 
+        Interpreter(State state); 
 
         template <typename T>
         std::expected<T, DataError> interpretData(Data& data);
@@ -24,33 +24,33 @@ class Interpreter {
          * must be one of the defined types (Const, Arith, Size, Load, Store). 
          * 
          */
-        void interpret(Instruction* instruction); 
+        void interpret(Instruction& instruction); 
 
         /**
          * Interpret const instruction. 
          */
-        void interpret(ConstInstr* instruction); 
+        void interpret(ConstInstr& instruction); 
 
         /**
          * Interpret arith instruction. 
          */
-        void interpret(ArithInstr* instruction); 
+        void interpret(ArithInstr& instruction); 
 
         /**
          * Interpret size instruction. 
          */
-        void interpret(SizeInstr* instruction); 
+        void interpret(SizeInstr& instruction); 
 
         /**
          * Interpret load instruction. 
          */
-        void interpret(LoadInstr* instruction); 
+        void interpret(LoadInstr& instruction); 
 
         /** 
          * Interpret store instruction. 
          */
-        void interpret(StoreInstr* instruction); 
+        void interpret(StoreInstr& instruction); 
 
-    private: 
-        State* state; 
+    // private: TODO make private 
+        State state; 
 }; 
