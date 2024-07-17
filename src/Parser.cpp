@@ -120,5 +120,7 @@ Instruction Parser::parse(const std::string& str) {
 
         throw std::invalid_argument("Invalid assembly command. "); 
     }
+
+    // TODO handle return statement: return invalid instruction type ??? 
 }
 
