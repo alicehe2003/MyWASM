@@ -1,18 +1,10 @@
 #pragma once
 #include "State.hpp"
-#include "ArithInstr.hpp"
-#include "ConstInstr.hpp"
-#include "LoadInstr.hpp"
-#include "SizeInstr.hpp"
-#include "StoreInstr.hpp"
 #include "Instruction.hpp"
 
 class Interpreter {
     public: 
         Interpreter(State state); 
-
-        template <typename T>
-        std::expected<T, DataError> interpretData(Data& data);
 
         template <typename T>
         T getValidData(Data& data); 

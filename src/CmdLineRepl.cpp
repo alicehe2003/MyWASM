@@ -25,7 +25,7 @@ void CmdLineRepl::run() {
     
     std::cout<< interpreter.state.heap << std::endl; 
     Data d = interpreter.state.stk.top(); 
-    std::cout << *(interpreter.interpretData<int>(d)) << std::endl;
+    std::cout << *(d.interpretData<int>()) << std::endl;
      
 
 

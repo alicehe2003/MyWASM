@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector> 
+#include <expected>
 
 /**
  * @brief Data types allowed by this WASM. 
@@ -9,6 +10,10 @@
 enum DataType {
     i32, 
     u32 
+}; 
+
+enum class DataError {
+    InvalidDataError
 }; 
 
 class Data {
@@ -50,12 +55,22 @@ class Data {
             return dataVal; 
         }
 
+        template <typename T> 
+        std::expected<T, DataError> interpretData() {
+            if (dataVal.size() != sizeof(T)) {
+                return std::unexpected(DataError::InvalidDataError);
+            }
+
+            T value = 0; 
+            for (size_t i = 0; i < sizeof(T); i++) {
+                value |= (static_cast<T>(dataVal[i]) << (i * 8)); 
+            }
+
+            return value; 
+        }
+
     private: 
         std::vector<uint8_t> dataVal; 
         DataType dataType; 
-}; 
-
-enum class DataError {
-    InvalidDataError
 }; 
 

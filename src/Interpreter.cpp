@@ -5,28 +5,15 @@
 #include <iostream>
 #include <variant> 
 #include <vector> 
+#include "Data.hpp"
 
 Interpreter::Interpreter(State state) {
     this->state = state; 
 }
 
-template <typename T> 
-std::expected<T, DataError> Interpreter::interpretData(Data& data) {
-    if (data.getDataVal().size() != sizeof(T)) {
-        return std::unexpected(DataError::InvalidDataError);
-    }
-
-    T value = 0; 
-    for (size_t i = 0; i < sizeof(T); i++) {
-        value |= (static_cast<T>(data.getDataVal()[i]) << (i * 8)); 
-    }
-
-    return value; 
-}
-
 template <typename T>
 T Interpreter::getValidData(Data& data) {
-    auto result = interpretData<T>(data); 
+    auto result = data.interpretData<T>(); 
     T value; 
     if (result.error() == DataError::InvalidDataError) {
         std::cerr << "Invalid data error" << std::endl; 
