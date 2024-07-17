@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Instruction.hpp"
+#include "Data.hpp"
 
-class ConstInstr : public Instruction {
+class ConstInstr {
     public: 
         ConstInstr(Data data); 
 

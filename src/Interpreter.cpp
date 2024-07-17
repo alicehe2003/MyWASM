@@ -39,12 +39,16 @@ T Interpreter::getValidData(Data& data) {
     return value; 
 }
 
-void Interpreter::interpretConst(ConstInstr* instruction) { 
+void Interpreter::interpret(Instruction* instruction) {
+
+}
+
+void Interpreter::interpret(ConstInstr* instruction) { 
     ConstInstr* constInstr = static_cast<ConstInstr*>(instruction); 
     state->pushToStack(constInstr->getData()); 
 }
 
-void Interpreter::interpretArith(ArithInstr* instruction) {
+void Interpreter::interpret(ArithInstr* instruction) {
 
     ArithInstr* arithInstr = static_cast<ArithInstr*>(instruction); 
 
@@ -133,13 +137,13 @@ void Interpreter::interpretArith(ArithInstr* instruction) {
     state->pushToStack(result); 
 }
 
-void Interpreter::interpretSize(SizeInstr* instruction) {
+void Interpreter::interpret(SizeInstr* instruction) {
     Data sizeData(u32);
     sizeData.setDataVal(state->size()); 
     state->pushToStack(sizeData);  
 }
 
-void Interpreter::interpretLoad(LoadInstr* instruction) {
+void Interpreter::interpret(LoadInstr* instruction) {
 
     LoadInstr* loadInstr = static_cast<LoadInstr*>(instruction); 
 
@@ -150,7 +154,7 @@ void Interpreter::interpretLoad(LoadInstr* instruction) {
     state->pushToStack(valueInMemory); 
 }
 
-void Interpreter::interpretStore(StoreInstr* instruction) {
+void Interpreter::interpret(StoreInstr* instruction) {
     StoreInstr* storeInstr = static_cast<StoreInstr*>(instruction); 
 
     Data dataVal = state->getFromStack(); 

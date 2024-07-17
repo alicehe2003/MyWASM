@@ -1,8 +1,8 @@
 #pragma once 
 
-#include "Instruction.hpp"
+#include "Data.hpp"
 
-class SizeInstr : public Instruction {
+class SizeInstr {
     public:
        SizeInstr(); 
 }; 

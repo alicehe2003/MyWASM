@@ -1,8 +1,8 @@
 #pragma once 
 
-#include "Instruction.hpp"
+#include "Data.hpp"
 
-class LoadInstr : public Instruction {
+class LoadInstr {
     public: 
         LoadInstr(int index, DataType dataType); 
 

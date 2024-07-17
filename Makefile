@@ -16,7 +16,7 @@ BOOST_LIB_DIR = /opt/homebrew/opt/boost/lib
 # Specify the Boost libraries you need (update these as needed)
 BOOST_LIBS = 
 
-_DEPS = Parser.hpp CmdLineRepl.hpp Interpreter.hpp State.hpp ArithInstr.hpp ConstInstr.hpp LoadInstr.hpp SizeInstr.hpp StoreInstr.hpp	# header files (separated by space)
+_DEPS = Parser.hpp CmdLineRepl.hpp Interpreter.hpp State.hpp ArithInstr.hpp ConstInstr.hpp LoadInstr.hpp SizeInstr.hpp StoreInstr.hpp Data.hpp	# header files (separated by space)
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = main.o Parser.o CmdLineRepl.o Interpreter.o State.o ArithInstr.o ConstInstr.o LoadInstr.o SizeInstr.o StoreInstr.o				# .o files 

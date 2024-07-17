@@ -17,15 +17,39 @@ class Interpreter {
         template <typename T>
         T getValidData(Data& data); 
 
-        void interpretConst(ConstInstr* instruction); 
+        /** 
+         * Given an instruction, perform the necassary change to state. 
+         * 
+         * @param instruction is the given instruction. The actual type of instruction
+         * must be one of the defined types (Const, Arith, Size, Load, Store). 
+         * 
+         */
+        void interpret(Instruction* instruction); 
 
-        void interpretArith(ArithInstr* instruction); 
+        /**
+         * Interpret const instruction. 
+         */
+        void interpret(ConstInstr* instruction); 
 
-        void interpretSize(SizeInstr* instruction); 
+        /**
+         * Interpret arith instruction. 
+         */
+        void interpret(ArithInstr* instruction); 
 
-        void interpretLoad(LoadInstr* instruction); 
+        /**
+         * Interpret size instruction. 
+         */
+        void interpret(SizeInstr* instruction); 
 
-        void interpretStore(StoreInstr* instruction); 
+        /**
+         * Interpret load instruction. 
+         */
+        void interpret(LoadInstr* instruction); 
+
+        /** 
+         * Interpret store instruction. 
+         */
+        void interpret(StoreInstr* instruction); 
 
     private: 
         State* state; 

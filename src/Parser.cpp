@@ -46,7 +46,7 @@ Instruction* Parser::parse(const std::string& str) {
         }
 
         if (match[2] == "const") {
-            instruction = new ConstInstr(data); 
+            instruction = new Instruction(ConstInstr(data)); 
         } else {
             // throw error: invalid op code 
         }
@@ -64,17 +64,17 @@ Instruction* Parser::parse(const std::string& str) {
         } 
 
         if (match[2] == "add") {
-            instruction = new ArithInstr(Add, dataType); 
+            instruction = new Instruction(ArithInstr(Add, dataType)); 
         } else if (match[2] == "sub") {
-            instruction = new ArithInstr(Sub, dataType); 
+            instruction = new Instruction(ArithInstr(Sub, dataType)); 
         } else if (match[2] == "mul") {
-            instruction = new ArithInstr(Mult, dataType); 
+            instruction = new Instruction(ArithInstr(Mult, dataType)); 
         } else if (match[2] == "div_s") {
-            instruction = new ArithInstr(Div_s, dataType); 
+            instruction = new Instruction(ArithInstr(Div_s, dataType)); 
         } else if (match[2] == "load") {
-            instruction = new LoadInstr(0, dataType); 
+            instruction = new Instruction(LoadInstr(0, dataType)); 
         } else if (match[2] == "store") {
-            instruction = new StoreInstr(0, dataType); 
+            instruction = new Instruction(StoreInstr(0, dataType)); 
         } else {
             // throw error: invalid op code 
         }
@@ -82,7 +82,7 @@ Instruction* Parser::parse(const std::string& str) {
     } else if (boost::regex_match(str, match, regex_memory_size_instruction)) {
         // Match form: memory.size
 
-        instruction = new SizeInstr(); 
+        instruction = new Instruction(SizeInstr()); 
 
     } else if (boost::regex_match(str, match, regex_memory_instruction)) {
         // Match form: i32.load (memory 5), i32.store (memory 5)
@@ -99,9 +99,9 @@ Instruction* Parser::parse(const std::string& str) {
         int index = std::stoi(match[3]); 
 
         if (match[2] == "load") {
-            instruction = new LoadInstr(index, dataType); 
+            instruction = new Instruction(LoadInstr(index, dataType)); 
         } else if (match[2] == "store") {
-            instruction = new StoreInstr(index, dataType); 
+            instruction = new Instruction(StoreInstr(index, dataType)); 
         } else {
             // throw error: invalid op code 
         }

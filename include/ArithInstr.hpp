@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "Instruction.hpp"
+#include "Data.hpp"
 
 /**
  * @brief Types of arithmetic operations allowed. 
@@ -20,7 +20,7 @@ enum ArithOpType {
  * 
  * Arithmetic operation instructions allowable on my WASM simulation. 
  */
-class ArithInstr : public Instruction {
+class ArithInstr {
     public: 
         /**
          * Constructor sets opType and dataType to given. 
