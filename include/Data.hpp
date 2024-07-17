@@ -18,18 +18,15 @@ class Data {
 
             switch(dataType) {
                 case i32: 
-                    std::cout<< "Data type: i32" << std::endl; 
                     dataVal.resize(4); 
                     break; 
                 case u32:
-                    std::cout<< "Data type: u32" << std::endl; 
                     dataVal.resize(4); 
                     break; 
             }
         }
 
         DataType getDataType() {
-            std::cout<< "Data type: " << dataType << std::endl; 
             return dataType; 
         }
 
