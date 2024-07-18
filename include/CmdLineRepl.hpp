@@ -9,6 +9,8 @@ class CmdLineRepl {
         CmdLineRepl(); 
         void run(); 
 
+        // TODO delete or refactor these tests 
+        void test(); 
     
     private: 
         Parser parser; 

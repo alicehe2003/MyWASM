@@ -9,6 +9,22 @@ CmdLineRepl::CmdLineRepl()
     : parser(Parser()), interpreter(Interpreter(State())) {}; 
 
 void CmdLineRepl::run() {
+
+    while (true) {
+
+        std::string input; 
+        std::getline(std::cin, input); 
+        if (input == "end") {
+            break; 
+        }
+        Instruction instruction = parser.parse(input); 
+        interpreter.interpret(instruction); 
+    }
+
+    std::cout << "Ending program. " << std::endl; 
+}
+
+void CmdLineRepl::test() {
     // TESTING: create commands and parse 
     std::string callCommand = "call $log"; 
     Instruction callInstruction = parser.parse(callCommand); 
@@ -84,17 +100,4 @@ void CmdLineRepl::run() {
     interpreter.interpret(loadInstruction); 
     std::cout << "Testing load and store, expecting 10 " << std::endl; 
     interpreter.interpret(callInstruction); 
-
-    /*
-    while (true) {
-
-        std::string input; 
-        std::getline(std::cin, input); 
-        if (input == "end") {
-            break; 
-        }
-        Instruction* instruction = parser->parse(input); 
-        
-    }
-    */ 
 }
