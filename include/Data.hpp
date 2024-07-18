@@ -23,10 +23,10 @@ class Data {
 
             switch(dataType) {
                 case i32: 
-                    dataVal.resize(4); 
+                    dataVal.resize(4, 0); 
                     break; 
                 case u32:
-                    dataVal.resize(4); 
+                    dataVal.resize(4, 0); 
                     break; 
             }
         }
@@ -67,6 +67,10 @@ class Data {
             }
 
             return value; 
+        }
+
+        void setByte(int i, uint8_t byte) {
+            dataVal[i] = byte; 
         }
 
     private: 

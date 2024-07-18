@@ -65,6 +65,26 @@ void CmdLineRepl::run() {
     std::cout << "Testing call $log, expecting 1048576 " << std::endl; 
     interpreter.interpret(callInstruction); 
 
+    // testing load and store 
+    std::string const1Command = "i32.const 1"; 
+    std::string storeCommand = "i32.store"; 
+    std::string loadCommand = "i32.load"; 
+    Instruction const1Instruction = parser.parse(const1Command); 
+    Instruction storeInstruction = parser.parse(storeCommand); 
+    Instruction loadInstruction = parser.parse(loadCommand); 
+    // store value at offset 1 
+    interpreter.interpret(const1Instruction); 
+    // number to store 
+    interpreter.interpret(const10Instruction); 
+    // store in memory with offset 1
+    interpreter.interpret(storeInstruction); 
+    // offset in memory to load from 
+    interpreter.interpret(const1Instruction); 
+    // load from memory with offset 1
+    interpreter.interpret(loadInstruction); 
+    std::cout << "Testing load and store, expecting 10 " << std::endl; 
+    interpreter.interpret(callInstruction); 
+
     /*
     while (true) {
 

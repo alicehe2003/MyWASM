@@ -10,45 +10,49 @@ int State::size() {
     return sizeof(heap); 
 }
 
-void State::storeInMemory(int offset, int index, Data value) {
+void State::storeInMemory(int offset, Data value) {
     DataType dataType = value.getDataType(); 
+    int size = 0; 
 
     switch (dataType) {
         case i32: 
         case u32: 
-            for (int i = 0; i < 4; i++) {
-                uint8_t bt = value.getDataVal()[i]; 
-                int position = offset + index * 4 + i; 
-
-                if (position < sizeof(heap)) {
-                    heap[position] = bt; 
-                } else {
-                    throw StateError::MemoryOutOfBoundError; 
-                }
-            }
+            size = 4; 
         break; 
+    }
+
+    if (offset + size > sizeof(heap)) {
+        // throw error: memory out of bounds 
+    }
+
+    for (int i = 0; i < size; i++) {
+        uint8_t bt = value.getDataVal()[i]; 
+        int position = offset + i; 
+
+        heap[position] = bt; 
     }
 }
 
-Data State::loadFromMemory(int offset, int index, DataType dataType) {
+Data State::loadFromMemory(int offset, DataType dataType) {
     Data data(dataType); 
+    int size = 0; 
 
     switch (dataType) {
         case i32:
         case u32:
-            std::vector<uint8_t> dataVal; 
-            for (int i = 0; i < 4; i++) {
-                int position = offset + index * 4 + i; 
-
-                if (position < sizeof(heap)) {
-                    uint8_t bt = heap[position]; 
-                    dataVal.push_back(bt);  
-                } else {
-                    throw StateError::MemoryOutOfBoundError; 
-                } 
-            }
-            data.setDataVal(dataVal);
+            size = 4; 
             break; 
+    }
+
+    if (offset + size > sizeof(heap)) {
+        // throw error: memory out of bounds 
+    }
+
+    for (int i = 0; i < size; i++) {
+        int position = offset + i; 
+
+        uint8_t bt = heap[position]; 
+        data.setByte(i, bt);  
     }
 
     return data; 

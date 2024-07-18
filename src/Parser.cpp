@@ -17,7 +17,6 @@ Instruction Parser::parse(const std::string& str) {
     boost::regex regex_instruction_val(R"(^(i32)\.(const) (\d+)$)");
     boost::regex regex_instruction(R"(^(i32)\.(add|sub|mul|div_s|load|store)$)");
     boost::regex regex_memory_size_instruction(R"(^memory\.size$)");
-    boost::regex regex_memory_instruction(R"(^(i32)\.(load|store) \(memory (\d+)\)$)");
     boost::regex regex_call(R"(^call \$(\w+)$)");
 
     boost::smatch match; 
@@ -91,30 +90,6 @@ Instruction Parser::parse(const std::string& str) {
 
         Instruction instruction = Instruction(SizeInstr()); 
         return instruction; 
-
-    } else if (boost::regex_match(str, match, regex_memory_instruction)) {
-        // Match form: i32.load (memory 5), i32.store (memory 5)
-
-        DataType dataType; 
-        if (match[1] == "i32") {
-            dataType = i32; 
-        } else if (match[1] == "u32") {
-            dataType = u32; 
-        } else {
-            // throw error: invalid data type 
-        } 
-
-        int index = std::stoi(match[3]); 
-
-        if (match[2] == "load") {
-            Instruction instruction = Instruction(LoadInstr(index, dataType)); 
-            return instruction; 
-        } else if (match[2] == "store") {
-            Instruction instruction = Instruction(StoreInstr(index, dataType)); 
-            return instruction; 
-        } else {
-            // throw error: invalid op code 
-        }
 
     } else if (boost::regex_match(str, match, regex_call)) {
         // Match form: call $log 

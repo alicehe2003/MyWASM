@@ -129,7 +129,7 @@ void Interpreter::interpret(LoadInstr& instruction) {
     Data dataOffset = state.getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
     
-    Data valueInMemory = state.loadFromMemory(offset, instruction.getIndex(), instruction.getDataType()); 
+    Data valueInMemory = state.loadFromMemory(offset, instruction.getDataType()); 
     state.pushToStack(valueInMemory); 
 }
 
@@ -143,7 +143,7 @@ void Interpreter::interpret(StoreInstr& instruction) {
         // throw error: data type mismatch
     }
 
-    state.storeInMemory(offset, instruction.getIndex(), dataVal); 
+    state.storeInMemory(offset, dataVal); 
 }
 
 void Interpreter::interpret(CallInstr& instruction) {

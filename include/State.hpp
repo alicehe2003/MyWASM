@@ -12,9 +12,9 @@ class State {
          */
         int size(); 
 
-        void storeInMemory(int offset, int index, Data value); 
+        void storeInMemory(int offset, Data value); 
 
-        Data loadFromMemory(int offset, int index, DataType dataType); 
+        Data loadFromMemory(int offset, DataType dataType); 
 
         void pushToStack(Data value); 
 
