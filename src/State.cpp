@@ -63,3 +63,8 @@ Data State::getFromStack() {
     stk.pop(); 
     return value; 
 }
+
+Data State::topOfStack() {
+    Data value = stk.top(); 
+    return value; 
+}

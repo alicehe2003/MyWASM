@@ -145,3 +145,10 @@ void Interpreter::interpret(StoreInstr& instruction) {
 
     state.storeInMemory(offset, instruction.getIndex(), dataVal); 
 }
+
+void Interpreter::interpret(CallInstr& instruction) {
+    Data top = state.topOfStack(); 
+    int topValue = getValidData<int>(top); 
+
+    std::cout << topValue << std::endl; 
+}

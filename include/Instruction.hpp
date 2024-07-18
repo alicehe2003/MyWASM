@@ -9,9 +9,10 @@
 #include "LoadInstr.hpp"
 #include "SizeInstr.hpp"
 #include "StoreInstr.hpp"
+#include "CallInstr.hpp"
 
 /**
  * @brief Instructions allowed by this WASM. 
  * @author Alice He 
  */
-using Instruction = std::variant<ArithInstr, ConstInstr, LoadInstr, SizeInstr, StoreInstr>; 
+using Instruction = std::variant<ArithInstr, ConstInstr, LoadInstr, SizeInstr, StoreInstr, CallInstr>; 

@@ -43,6 +43,13 @@ class Interpreter {
          */
         void interpret(StoreInstr& instruction); 
 
+        /**
+         * Interpret call instruction. 
+         * 
+         * Print to console the element at the top of the stack without removing. 
+         */
+        void interpret(CallInstr& instruction); 
+
     // private: TODO make private 
         State state; 
 }; 

@@ -18,6 +18,7 @@ Instruction Parser::parse(const std::string& str) {
     boost::regex regex_instruction(R"(^(i32)\.(add|sub|mul|div_s|load|store)$)");
     boost::regex regex_memory_size_instruction(R"(^memory\.size$)");
     boost::regex regex_memory_instruction(R"(^(i32)\.(load|store) \(memory (\d+)\)$)");
+    boost::regex regex_call(R"(^call \$(\w+)$)");
 
     boost::smatch match; 
 
@@ -115,6 +116,16 @@ Instruction Parser::parse(const std::string& str) {
             // throw error: invalid op code 
         }
 
+    } else if (boost::regex_match(str, match, regex_call)) {
+        // Match form: call $log 
+
+        if (match[1] == "log") {
+            Instruction instruction = Instruction(CallInstr("log")); 
+            return instruction; 
+        } else {
+            // throw error: invalid indentifier 
+        }
+        
     } else {
         // throw error: invalid assembly command 
 

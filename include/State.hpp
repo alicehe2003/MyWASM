@@ -21,6 +21,9 @@ class State {
         // get element at top of stack and remove the element 
         Data getFromStack(); 
 
+        // return element at top of stack without removing the element 
+        Data topOfStack(); 
+
     // private: TODO make private 
         // Statically allocated memory with 1MB of available space 
         uint8_t heap[1024 * 1024]; 
