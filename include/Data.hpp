@@ -14,7 +14,8 @@ enum DataType {
 
 enum class DataError {
     InvalidDataError, 
-    DataSizeMismatchError 
+    DataSizeMismatchError, 
+    DataTypeMismatchError
 }; 
 
 class Data {
@@ -91,6 +92,22 @@ class Data {
 
             return true; 
         }
+
+        /**
+         * @return true if dataType1 and dataType2 are the same type, return DataTypeMismatchError
+         * otherwise. 
+         * 
+         * Note that i32 and u32 are not the same type. Hence expecting DataTypeMismatchError. 
+         */
+        static std::expected<bool, DataError> isSameDataType(DataType dataType1, DataType dataType2) {
+            if (dataType1 == dataType2) {
+                return true; 
+            }
+
+            return std::unexpected(DataError::DataTypeMismatchError); 
+        }
+
+
 
     private: 
         std::vector<uint8_t> dataVal; 

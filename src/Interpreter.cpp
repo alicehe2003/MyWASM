@@ -139,11 +139,13 @@ void Interpreter::interpret(StoreInstr& instruction) {
     Data dataVal = state.getFromStack(); 
     Data dataOffset = state.getFromStack(); 
     int offset = getValidData<int>(dataOffset); 
-    
-    DataType instructionDataType = instruction.getDataType(); 
-    if (instructionDataType != dataVal.getDataType()) {
-        // throw error: data type mismatch
+
+    auto isSameType = Data::isSameDataSize(instruction.getDataType(), dataVal.getDataType()); 
+
+    if (!isSameType.has_value() && isSameType.error() == DataError::DataTypeMismatchError) {
+        std::cerr << "Data type mismatch error. " << std::endl;
     }
+
 
     state.storeInMemory(offset, dataVal); 
 }
