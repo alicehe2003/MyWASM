@@ -14,7 +14,7 @@ Parser::Parser() {
 
 Instruction Parser::parse(const std::string& str) {
     // Define regex patterns for acceptable forms 
-    boost::regex regex_instruction_val(R"(^(i32)\.(const) (\d+)$)");
+    boost::regex regex_instruction_val(R"(^(i32)\.(const) (-?\d+)$)");
     boost::regex regex_instruction(R"(^(i32)\.(add|sub|mul|div_s|load|store)$)");
     boost::regex regex_memory_size_instruction(R"(^memory\.size$)");
     boost::regex regex_call(R"(^call \$(\w+)$)");

@@ -100,4 +100,12 @@ void CmdLineRepl::test() {
     interpreter.interpret(loadInstruction); 
     std::cout << "Testing load and store, expecting 10 " << std::endl; 
     interpreter.interpret(callInstruction); 
+
+    // testing negative numbers 
+    std::string constNeg1Command = "i32.const -1"; 
+    Instruction constNeg1Instruction = parser.parse(constNeg1Command); 
+    interpreter.interpret(constNeg1Instruction); 
+    std::cout << "Testing add on negative number, expecting 9 " << std::endl; 
+    interpreter.interpret(addInstruction);  
+    interpreter.interpret(callInstruction); 
 }

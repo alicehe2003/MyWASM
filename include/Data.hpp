@@ -13,7 +13,8 @@ enum DataType {
 }; 
 
 enum class DataError {
-    InvalidDataError
+    InvalidDataError, 
+    DataSizeMismatchError 
 }; 
 
 class Data {
@@ -31,15 +32,17 @@ class Data {
             }
         }
 
-        DataType getDataType() {
+        DataType getDataType() const {
             return dataType; 
         }
 
         template <typename T>
         void setDataVal(T val) {
             dataVal.clear();
+            using UnsignedT = typename std::make_unsigned<T>::type; 
+            UnsignedT unsignedVal = static_cast<UnsignedT>(val);
             for (size_t i = 0; i < sizeof(T); i++) {
-                uint8_t byte = (val >> (i * 8)) & 0xFF; 
+                uint8_t byte = (unsignedVal >> (i * 8)) & 0xFF; 
 
                 dataVal.push_back(byte);
             }
@@ -71,6 +74,22 @@ class Data {
 
         void setByte(int i, uint8_t byte) {
             dataVal[i] = byte; 
+        }
+
+        /**
+         * @return true if data1 and data2 are the same size, return DataSizeMismatchError 
+         * otherwise. 
+         * 
+         * Note that i32 and u32 are the same size, as they are both 32 bits. Hence expecting true.
+         */
+        static std::expected<bool, DataError> isSameDataSize(Data data1, Data data2) {
+            DataType dataType1 = data1.getDataType(); 
+            DataType dataType2 = data2.getDataType(); 
+
+            // add checks for non equal data sizes
+            // return std::unexpected(DataError::DataSizeMismatchError); 
+
+            return true; 
         }
 
     private: 

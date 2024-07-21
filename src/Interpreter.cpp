@@ -16,9 +16,8 @@ T Interpreter::getValidData(Data& data) {
     auto result = data.interpretData<T>(); 
     T value; 
     if (result.error() == DataError::InvalidDataError) {
-        std::cerr << "Invalid data error" << std::endl; 
-    }
-    if (result.has_value()) {
+        std::cerr << "Invalid data error. " << std::endl; 
+    } else if (result.has_value()) {
         value = result.value(); 
     } 
     return value; 
@@ -40,8 +39,11 @@ void Interpreter::interpret(ArithInstr& instruction) {
     // get 2 numbers from top of stack 
     Data data2 = state.getFromStack(); 
     Data data1 = state.getFromStack(); 
-    if (data1.getDataType() != data2.getDataType()) {
-        // throw error: data type mismatch 
+    
+    auto isSameSize = Data::isSameDataSize(data1, data2); 
+
+    if (!isSameSize.has_value() && isSameSize.error() == DataError::DataSizeMismatchError) {
+        std::cerr << "Data size mismatch error. " << std::endl;
     }
 
     Data result(dataType); 
