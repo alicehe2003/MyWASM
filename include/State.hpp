@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <stack>
 #include "Instruction.hpp"
+#include <expected>
 
 class State {
     public: 

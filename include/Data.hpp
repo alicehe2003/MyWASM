@@ -12,6 +12,14 @@ enum DataType {
     u32 
 }; 
 
+/**
+ * InvalidDataError: given data is invalid. For example, the instruction 'i32.const a'
+ * would cause this error since 'a' is not a valid data. 
+ * 
+ * DataSizeMismatchError: occurs when two given Data have a size mismatch. 
+ * 
+ * DataTypeMismatchError: occurs when two given DataTypes do not match. 
+ */
 enum class DataError {
     InvalidDataError, 
     DataSizeMismatchError, 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Instruction.hpp"
+#include <expected>
 
 class Parser {
     public: 
@@ -13,6 +14,6 @@ class Parser {
          * 
          * @return The correct Instruction object representation of str. 
          */
-       Instruction parse(const std::string& str); 
+       std::expected<Instruction, DataError> parse(const std::string& str); 
 }; 
 

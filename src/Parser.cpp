@@ -12,7 +12,7 @@ Parser::Parser() {
 
 }
 
-Instruction Parser::parse(const std::string& str) {
+std::expected<Instruction, DataError> Parser::parse(const std::string& str) {
     // Define regex patterns for acceptable forms 
     boost::regex regex_instruction_val(R"(^(i32)\.(const) (-?\d+)$)");
     boost::regex regex_instruction(R"(^(i32)\.(add|sub|mul|div_s|load|store)$)");
@@ -30,7 +30,7 @@ Instruction Parser::parse(const std::string& str) {
         } else if (match[1] == "u32") {
             dataType = u32; 
         } else {
-            // throw error: invalid data type 
+            return std::unexpected(DataError::InvalidDataError); 
         }
 
         Data data(dataType); 
@@ -41,7 +41,7 @@ Instruction Parser::parse(const std::string& str) {
             uint32_t val = static_cast<uint32_t>(std::stoi(match[3])); 
             data.setDataVal(val); 
         } else {
-            // throw error: invalid data type 
+            return std::unexpected(DataError::InvalidDataError); 
         }
 
         if (match[2] == "const") {
@@ -60,7 +60,7 @@ Instruction Parser::parse(const std::string& str) {
         } else if (match[1] == "u32") {
             dataType = u32; 
         } else {
-            // throw error: invalid data type 
+            return std::unexpected(DataError::InvalidDataError); 
         } 
 
         if (match[2] == "add") {
@@ -101,12 +101,8 @@ Instruction Parser::parse(const std::string& str) {
             // throw error: invalid indentifier 
         }
         
-    } else {
-        // throw error: invalid assembly command 
+    } 
 
-        throw std::invalid_argument("Invalid assembly command. "); 
-    }
-
-    // TODO handle return statement: return invalid instruction type ??? 
+    // throw error: invalid assembly command 
 }
 

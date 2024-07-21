@@ -146,7 +146,6 @@ void Interpreter::interpret(StoreInstr& instruction) {
         std::cerr << "Data type mismatch error. " << std::endl;
     }
 
-
     state.storeInMemory(offset, dataVal); 
 }
 

@@ -8,6 +8,12 @@ class CmdLineRepl {
     public: 
         CmdLineRepl(); 
         void run(); 
+        /**
+         * @param command is the given string command 
+         * 
+         * Given a command, parse and interpret the command. 
+         */
+        void processCommand(std::string command); 
 
         // TODO delete or refactor these tests 
         void test(); 

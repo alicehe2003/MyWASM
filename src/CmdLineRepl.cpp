@@ -8,6 +8,23 @@
 CmdLineRepl::CmdLineRepl() 
     : parser(Parser()), interpreter(Interpreter(State())) {}; 
 
+
+void CmdLineRepl::processCommand(std::string command) {
+    auto commandResult = parser.parse(command); 
+    if (commandResult.has_value()) {
+        Instruction validCommand = commandResult.value(); 
+        interpreter.interpret(validCommand); 
+    } else if (commandResult.error() == DataError::InvalidDataError) {
+        std::cerr << "Invalid data error. " << std::endl; 
+    } else if (commandResult.error() == DataError::DataSizeMismatchError) {
+        std::cerr << "Data size mismatch error. " << std::endl; 
+    } else if (commandResult.error() == DataError::DataTypeMismatchError) {
+        std::cerr << "Data type mismatch error. " << std::endl; 
+    } else {
+        std::cerr << "Unknown error. " << std::endl; 
+    }
+}
+
 void CmdLineRepl::run() {
 
     while (true) {
@@ -17,8 +34,8 @@ void CmdLineRepl::run() {
         if (input == "end") {
             break; 
         }
-        Instruction instruction = parser.parse(input); 
-        interpreter.interpret(instruction); 
+
+        processCommand(input); 
     }
 
     std::cout << "Ending program. " << std::endl; 
@@ -27,85 +44,60 @@ void CmdLineRepl::run() {
 void CmdLineRepl::test() {
     // TESTING: create commands and parse 
     std::string callCommand = "call $log"; 
-    Instruction callInstruction = parser.parse(callCommand); 
-    
     std::string const10Command = "i32.const 10"; 
     std::string const3Command = "i32.const 3"; 
-    
-    Instruction const10Instruction = parser.parse(const10Command); 
-    Instruction const3Instruction = parser.parse(const3Command);
-    
     std::string addCommand = "i32.add"; 
-    Instruction addInstruction = parser.parse(addCommand); 
-
-    interpreter.interpret(const10Instruction); 
-    interpreter.interpret(const3Instruction); 
-    interpreter.interpret(addInstruction); 
-    
-    std::cout << "Testing add, expecting 13 " << std::endl;  
-    interpreter.interpret(callInstruction);
-    
     std::string const5Command = "i32.const 5"; 
-    Instruction const5Instruction = parser.parse(const5Command); 
     std::string subCommand = "i32.sub"; 
-    Instruction subInstruction = parser.parse(subCommand); 
-    interpreter.interpret(const5Instruction); 
-    interpreter.interpret(subInstruction); 
-
-    std::cout << "Testing sub, expecting 8 " << std::endl; 
-    interpreter.interpret(callInstruction);
-
     std::string mulCommand = "i32.mul";
-    Instruction mulInstruction = parser.parse(mulCommand); 
-    interpreter.interpret(const3Instruction); 
-    interpreter.interpret(mulInstruction); 
-
-    std::cout << "Testing mul, expecting 24 " << std::endl; 
-    interpreter.interpret(callInstruction);
-    
     std::string divCommand = "i32.div_s"; 
-    Instruction divInstruction = parser.parse(divCommand); 
-    interpreter.interpret(const3Instruction); 
-    interpreter.interpret(divInstruction);
-
-    std::cout << "Testing div, expecting 8 " << std::endl; 
-    interpreter.interpret(callInstruction);
-     
     std::string sizeCommand = "memory.size"; 
-    Instruction sizeInstruction = parser.parse(sizeCommand); 
-    interpreter.interpret(sizeInstruction); 
 
-    std::cout << "Testing memory.size, expecting 1024x1024 = 1048576 " << std::endl; 
-    interpreter.interpret(callInstruction);
+    processCommand(const10Command); 
+    processCommand(const3Command); 
+    processCommand(addCommand); 
+    std::cout << "Testing add, expecting 13 " << std::endl;  
+    processCommand(callCommand); 
+    
+    processCommand(const5Command); 
+    processCommand(subCommand); 
+    std::cout << "Testing sub, expecting 8 " << std::endl; 
+    processCommand(callCommand); 
+
+    processCommand(const3Command); 
+    processCommand(mulCommand); 
+    std::cout << "Testing mul, expecting 24 " << std::endl; 
+    processCommand(callCommand); 
+    
+    
+    processCommand(const3Command); 
+    processCommand(divCommand); 
+    std::cout << "Testing div, expecting 8 " << std::endl; 
+    processCommand(callCommand); 
      
-    std::cout << "Testing call $log, expecting 1048576 " << std::endl; 
-    interpreter.interpret(callInstruction); 
+    
+    processCommand(sizeCommand); 
+    std::cout << "Testing memory.size, expecting 1024x1024 = 1048576 " << std::endl; 
+    processCommand(callCommand); 
 
     // testing load and store 
     std::string const1Command = "i32.const 1"; 
     std::string storeCommand = "i32.store"; 
     std::string loadCommand = "i32.load"; 
-    Instruction const1Instruction = parser.parse(const1Command); 
-    Instruction storeInstruction = parser.parse(storeCommand); 
-    Instruction loadInstruction = parser.parse(loadCommand); 
-    // store value at offset 1 
-    interpreter.interpret(const1Instruction); 
-    // number to store 
-    interpreter.interpret(const10Instruction); 
-    // store in memory with offset 1
-    interpreter.interpret(storeInstruction); 
-    // offset in memory to load from 
-    interpreter.interpret(const1Instruction); 
-    // load from memory with offset 1
-    interpreter.interpret(loadInstruction); 
+
+    processCommand(const1Command); 
+    processCommand(const10Command); 
+    processCommand(storeCommand); 
+    processCommand(const1Command); 
+    processCommand(loadCommand); 
     std::cout << "Testing load and store, expecting 10 " << std::endl; 
-    interpreter.interpret(callInstruction); 
+    processCommand(callCommand); 
 
     // testing negative numbers 
     std::string constNeg1Command = "i32.const -1"; 
-    Instruction constNeg1Instruction = parser.parse(constNeg1Command); 
-    interpreter.interpret(constNeg1Instruction); 
+
+    processCommand(constNeg1Command); 
+    processCommand(addCommand);  
     std::cout << "Testing add on negative number, expecting 9 " << std::endl; 
-    interpreter.interpret(addInstruction);  
-    interpreter.interpret(callInstruction); 
+    processCommand(callCommand); 
 }
