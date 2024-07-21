@@ -15,4 +15,5 @@
  * @brief Instructions allowed by this WASM. 
  * @author Alice He 
  */
+
 using Instruction = std::variant<ArithInstr, ConstInstr, LoadInstr, SizeInstr, StoreInstr, CallInstr>; 

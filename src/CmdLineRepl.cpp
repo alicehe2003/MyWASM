@@ -10,18 +10,41 @@ CmdLineRepl::CmdLineRepl()
 
 
 void CmdLineRepl::processCommand(std::string command) {
-    auto commandResult = parser.parse(command); 
+    auto commandResult = parser.parse(command);
+
     if (commandResult.has_value()) {
-        Instruction validCommand = commandResult.value(); 
-        interpreter.interpret(validCommand); 
-    } else if (commandResult.error() == DataError::InvalidDataError) {
-        std::cerr << "Invalid data error. " << std::endl; 
-    } else if (commandResult.error() == DataError::DataSizeMismatchError) {
-        std::cerr << "Data size mismatch error. " << std::endl; 
-    } else if (commandResult.error() == DataError::DataTypeMismatchError) {
-        std::cerr << "Data type mismatch error. " << std::endl; 
+        Instruction validCommand = commandResult.value();
+        interpreter.interpret(validCommand);
     } else {
-        std::cerr << "Unknown error. " << std::endl; 
+        std::visit([](const auto& error) {
+            if constexpr (std::is_same_v<decltype(error), DataError>) {
+                switch (error) {
+                    case DataError::InvalidDataError:
+                        std::cerr << "Invalid data error." << std::endl;
+                        break;
+                    case DataError::DataSizeMismatchError:
+                        std::cerr << "Data size mismatch error." << std::endl;
+                        break;
+                    case DataError::DataTypeMismatchError:
+                        std::cerr << "Data type mismatch error." << std::endl;
+                        break;
+                    default:
+                        std::cerr << "Unknown data error." << std::endl;
+                        break;
+                }
+            }
+            else if constexpr (std::is_same_v<decltype(error), CallError>) {
+                switch (error) {
+                    case CallError::InvalidIdentifierError:
+                        std::cerr << "Invalid identifier error." << std::endl; 
+                        break; 
+                    default: 
+                        std::cerr << "Unknown call error." << std::endl; 
+                }
+            } else {
+                std::cerr << "Unknown error." << std::endl; 
+            }
+        }, commandResult.error());
     }
 }
 

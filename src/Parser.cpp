@@ -12,7 +12,7 @@ Parser::Parser() {
 
 }
 
-std::expected<Instruction, DataError> Parser::parse(const std::string& str) {
+std::expected<Instruction, std::variant<DataError, CallError>> Parser::parse(const std::string& str) {
     // Define regex patterns for acceptable forms 
     boost::regex regex_instruction_val(R"(^(i32)\.(const) (-?\d+)$)");
     boost::regex regex_instruction(R"(^(i32)\.(add|sub|mul|div_s|load|store)$)");
@@ -47,9 +47,7 @@ std::expected<Instruction, DataError> Parser::parse(const std::string& str) {
         if (match[2] == "const") {
             Instruction instruction = Instruction(ConstInstr(data)); 
             return instruction; 
-        } else {
-            // throw error: invalid op code 
-        }
+        } 
 
     } else if (boost::regex_match(str, match, regex_instruction)) {
         // Match form: i32.add, i32.sub, i32.mul, i32.div_s, i32.load, i32.store
@@ -81,9 +79,7 @@ std::expected<Instruction, DataError> Parser::parse(const std::string& str) {
         } else if (match[2] == "store") {
             Instruction instruction = Instruction(StoreInstr(0, dataType)); 
             return instruction; 
-        } else {
-            // throw error: invalid op code 
-        }
+        } 
  
     } else if (boost::regex_match(str, match, regex_memory_size_instruction)) {
         // Match form: memory.size
@@ -98,7 +94,7 @@ std::expected<Instruction, DataError> Parser::parse(const std::string& str) {
             Instruction instruction = Instruction(CallInstr("log")); 
             return instruction; 
         } else {
-            // throw error: invalid indentifier 
+            return std::unexpected(CallError::InvalidIdentifierError); 
         }
         
     } 

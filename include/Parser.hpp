@@ -2,6 +2,7 @@
 
 #include "Instruction.hpp"
 #include <expected>
+#include <variant> 
 
 class Parser {
     public: 
@@ -14,6 +15,6 @@ class Parser {
          * 
          * @return The correct Instruction object representation of str. 
          */
-       std::expected<Instruction, DataError> parse(const std::string& str); 
+       std::expected<Instruction, std::variant<DataError, CallError>> parse(const std::string& str); 
 }; 
 

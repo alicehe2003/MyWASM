@@ -4,6 +4,10 @@
 
 using ident = std::string; 
 
+enum class CallError {
+    InvalidIdentifierError
+}; 
+
 class CallInstr {
     public: 
         /**
