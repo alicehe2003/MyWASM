@@ -12,7 +12,7 @@ Parser::Parser() {
 
 }
 
-std::expected<Instruction, std::variant<DataError, CallError>> Parser::parse(const std::string& str) {
+std::expected<Instruction, std::variant<DataError, CallError, InstructionError>> Parser::parse(const std::string& str) {
     // Define regex patterns for acceptable forms 
     boost::regex regex_instruction_val(R"(^(i32)\.(const) (-?\d+)$)");
     boost::regex regex_instruction(R"(^(i32)\.(add|sub|mul|div_s|load|store)$)");
@@ -99,6 +99,6 @@ std::expected<Instruction, std::variant<DataError, CallError>> Parser::parse(con
         
     } 
 
-    // throw error: invalid assembly command 
+    return std::unexpected(InstructionError::InvalidOpCodeError); 
 }
 

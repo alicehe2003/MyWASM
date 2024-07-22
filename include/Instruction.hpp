@@ -15,5 +15,8 @@
  * @brief Instructions allowed by this WASM. 
  * @author Alice He 
  */
+enum class InstructionError {
+    InvalidOpCodeError 
+}; 
 
 using Instruction = std::variant<ArithInstr, ConstInstr, LoadInstr, SizeInstr, StoreInstr, CallInstr>; 

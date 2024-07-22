@@ -15,6 +15,6 @@ class Parser {
          * 
          * @return The correct Instruction object representation of str. 
          */
-       std::expected<Instruction, std::variant<DataError, CallError>> parse(const std::string& str); 
+       std::expected<Instruction, std::variant<DataError, CallError, InstructionError>> parse(const std::string& str); 
 }; 
 

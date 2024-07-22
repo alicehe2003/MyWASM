@@ -41,6 +41,14 @@ void CmdLineRepl::processCommand(std::string command) {
                     default: 
                         std::cerr << "Unknown call error." << std::endl; 
                 }
+            } else if constexpr (std::is_same_v<decltype(error), InstructionError>) {
+                switch (error) {
+                    case InstructionError::InvalidOpCodeError:
+                        std::cerr << "Invalid op code error." << std::endl; 
+                        break; 
+                    default: 
+                        std::cerr << "Unknown Instruction error." << std::endl; 
+                }
             } else {
                 std::cerr << "Unknown error." << std::endl; 
             }
