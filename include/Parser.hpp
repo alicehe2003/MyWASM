@@ -31,6 +31,14 @@ struct DataType_ : qi::symbols<char, DataType> {
   }
 }; 
 
-
+struct ArithOpType_ : qi::symbols<char, ArithOpType> {
+  ArithOpType_() {
+    add 
+        ("add", ArithOpType::Add)
+        ("sub", ArithOpType::Sub)
+        ("mul", ArithOpType::Mult)
+        ("div_s", ArithOpType::Div_s); 
+  }
+}; 
 
 
