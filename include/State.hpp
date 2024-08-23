@@ -4,6 +4,10 @@
 #include "Instruction.hpp"
 #include <expected>
 
+enum class StateError {
+    MemoryOutOfBoundError
+}; 
+
 class State {
     public: 
         State();
@@ -29,8 +33,4 @@ class State {
         // Statically allocated memory with 1MB of available space 
         uint8_t heap[1024 * 1024]; 
         std::stack<Data> stk; 
-}; 
-
-enum class StateError {
-    MemoryOutOfBoundError
 }; 
