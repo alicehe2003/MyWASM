@@ -13,5 +13,6 @@ Parser::Parser() {
 }
 
 std::expected<Instruction, std::variant<DataError, CallError, InstructionError>> Parser::parse(const std::string& str) {
+    
     return std::unexpected(DataError::InvalidDataError);
 }

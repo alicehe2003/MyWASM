@@ -4,6 +4,9 @@
 #include <expected>
 #include <variant> 
 
+#include <boost/spirit/include/qi.hpp>
+#include <boost/phoenix/operator.hpp>
+
 class Parser {
     public: 
         Parser(); 
@@ -15,6 +18,19 @@ class Parser {
          * 
          * @return The correct Instruction object representation of str. 
          */
-       std::expected<Instruction, std::variant<DataError, CallError, InstructionError>> parse(const std::string& str); 
+      std::expected<Instruction, std::variant<DataError, CallError, InstructionError>> parse(const std::string& str); 
 }; 
+
+namespace qi = boost::spirit::qi;
+
+struct DataType_ : qi::symbols<char, DataType> {
+  DataType_() {
+    add
+        ("i32", DataType::i32) 
+        ("u32", DataType::u32); 
+  }
+}; 
+
+
+
 
