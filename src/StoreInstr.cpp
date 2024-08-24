@@ -1,5 +1,7 @@
 #include "StoreInstr.hpp"
 
+using namespace instr;
+
 StoreInstr::StoreInstr(int index, DataType dataType) 
     : index(index), dataType(dataType) {}; 
 

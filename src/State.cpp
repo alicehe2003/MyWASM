@@ -2,6 +2,8 @@
 #include "Instruction.hpp"
 #include <iostream>
 
+
+using namespace instr;
 State::State() {
 
 }

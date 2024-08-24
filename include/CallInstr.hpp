@@ -2,6 +2,7 @@
 
 #include "Data.hpp" 
 
+namespace instr {
 using ident = std::string; 
 
 enum class CallError {
@@ -20,3 +21,5 @@ class CallInstr {
     private: 
         ident identifier; 
 }; 
+
+}

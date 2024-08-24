@@ -2,6 +2,8 @@
 
 #include "Data.hpp"
 
+namespace instr {
+
 /**
  * @brief Types of arithmetic operations allowed. 
  * 
@@ -28,7 +30,9 @@ class ArithInstr {
          * @param dataType is the type of DataType defined in Instruction 
          * (parent) class. 
          */
-        ArithInstr(ArithOpType opType, DataType dataType); 
+        // ArithInstr(ArithOpType opType, DataType dataType); 
+
+        // ArithInstr(); 
 
         /** 
          * @return The opType of this object. 
@@ -40,8 +44,9 @@ class ArithInstr {
          */
         DataType getDatatType(); 
 
-    private: 
+    // private: 
         ArithOpType opType; 
         DataType dataType; 
 }; 
+} 
 

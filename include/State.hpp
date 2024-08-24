@@ -17,20 +17,20 @@ class State {
          */
         int size(); 
 
-        void storeInMemory(int offset, Data value); 
+        void storeInMemory(int offset, instr::Data value); 
 
-        Data loadFromMemory(int offset, DataType dataType); 
+        instr::Data loadFromMemory(int offset, instr::DataType dataType); 
 
-        void pushToStack(Data value); 
+        void pushToStack(instr::Data value); 
 
         // get element at top of stack and remove the element 
-        Data getFromStack(); 
+        instr::Data getFromStack(); 
 
         // return element at top of stack without removing the element 
-        Data topOfStack(); 
+        instr::Data topOfStack(); 
 
     // private: TODO make private 
         // Statically allocated memory with 1MB of available space 
         uint8_t heap[1024 * 1024]; 
-        std::stack<Data> stk; 
+        std::stack<instr::Data> stk; 
 }; 

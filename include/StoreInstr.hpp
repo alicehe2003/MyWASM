@@ -2,6 +2,7 @@
 
 #include "Data.hpp"
 
+namespace instr {
 class StoreInstr {
     public: 
         StoreInstr(int index, DataType dataType); 
@@ -14,3 +15,5 @@ class StoreInstr {
         int index; 
         DataType dataType; 
 }; 
+
+}

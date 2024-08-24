@@ -2,6 +2,7 @@
 
 #include "Data.hpp"
 
+namespace instr {
 class ConstInstr {
     public: 
         ConstInstr(Data data); 
@@ -13,3 +14,4 @@ class ConstInstr {
     private: 
         Data data; 
 }; 
+}

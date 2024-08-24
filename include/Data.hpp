@@ -4,6 +4,7 @@
 #include <vector> 
 #include <expected>
 
+namespace instr { 
 /**
  * @brief Data types allowed by this WASM. 
  */
@@ -122,3 +123,5 @@ class Data {
         DataType dataType; 
 }; 
 
+
+}

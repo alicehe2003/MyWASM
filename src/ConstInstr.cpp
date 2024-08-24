@@ -1,4 +1,5 @@
 #include "ConstInstr.hpp"
+using namespace instr;
 
 ConstInstr::ConstInstr(Data data): data(data) {};
 

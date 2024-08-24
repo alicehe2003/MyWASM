@@ -2,6 +2,8 @@
 #include "State.hpp"
 #include "Instruction.hpp"
 
+using namespace instr;
+
 class Interpreter {
     public: 
         Interpreter(State state); 

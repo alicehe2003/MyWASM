@@ -12,7 +12,11 @@ Parser::Parser() {
 
 }
 
-std::expected<Instruction, std::variant<DataError, CallError, InstructionError>> Parser::parse(const std::string& str) {
-    
-    return std::unexpected(DataError::InvalidDataError);
+std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallError, instr::InstructionError>> Parser::parse(const std::string& str) {
+
+    return std::unexpected(instr::DataError::InvalidDataError);
 }
+
+
+ArithOpType_ ArithOpTypeParser;
+DataType_ DataTypeParser;

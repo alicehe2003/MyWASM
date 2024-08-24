@@ -11,6 +11,7 @@
 #include "StoreInstr.hpp"
 #include "CallInstr.hpp"
 
+namespace instr {
 /**
  * @brief Instructions allowed by this WASM. 
  * @author Alice He 
@@ -20,3 +21,4 @@ enum class InstructionError {
 }; 
 
 using Instruction = std::variant<ArithInstr, ConstInstr, LoadInstr, SizeInstr, StoreInstr, CallInstr>; 
+}
