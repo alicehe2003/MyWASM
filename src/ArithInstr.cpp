@@ -2,8 +2,8 @@
 #include "Instruction.hpp"
 
 using namespace instr;
-// ArithInstr::ArithInstr(ArithOpType opType, DataType dataType) 
-//     : opType(opType), dataType(dataType) {}; 
+ArithInstr::ArithInstr(ArithOpType opType, DataType dataType) 
+    : opType(opType), dataType(dataType) {}; 
 
 ArithOpType ArithInstr::getArithOpType() {
     return this->opType; 

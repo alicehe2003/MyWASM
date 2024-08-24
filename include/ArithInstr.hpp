@@ -30,9 +30,9 @@ class ArithInstr {
          * @param dataType is the type of DataType defined in Instruction 
          * (parent) class. 
          */
-        // ArithInstr(ArithOpType opType, DataType dataType); 
+        ArithInstr(ArithOpType opType, DataType dataType); 
 
-        // ArithInstr(); 
+        ArithInstr() = default; 
 
         /** 
          * @return The opType of this object. 
