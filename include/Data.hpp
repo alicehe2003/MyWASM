@@ -29,15 +29,18 @@ enum class DataError {
 
 class Data {
     public: 
+        Data() = default;
         Data(DataType dataType) {
             this->dataType = dataType; 
 
             switch(dataType) {
                 case i32: 
                     dataVal.resize(4, 0); 
+                    setDataVal<int32_t>(0); 
                     break; 
                 case u32:
                     dataVal.resize(4, 0); 
+                    setDataVal<uint32_t>(0);
                     break; 
             }
         }
@@ -118,7 +121,7 @@ class Data {
 
 
 
-    private: 
+    // private: 
         std::vector<uint8_t> dataVal; 
         DataType dataType; 
 }; 

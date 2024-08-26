@@ -4,5 +4,5 @@
 
 class SizeInstr {
     public:
-       SizeInstr(); 
+       // SizeInstr() noexcept = default; 
 }; 

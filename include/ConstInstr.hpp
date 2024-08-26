@@ -7,11 +7,13 @@ class ConstInstr {
     public: 
         ConstInstr(Data data); 
 
+        ConstInstr() : data(Data(instr::DataType::i32)) {}; 
+
         DataType getDataType(); 
 
         Data getData(); 
 
-    private: 
+    // private: 
         Data data; 
 }; 
 }
