@@ -30,6 +30,21 @@ enum class DataError {
 class Data {
     public: 
         Data() = default;
+
+        template <typename T> 
+        Data(DataType dataType, T val) : dataType(dataType) {
+            switch(dataType) {
+                case i32: 
+                    dataVal.resize(4, 0); 
+                    setDataVal<T>(val); 
+                    break; 
+                case u32:
+                    dataVal.resize(4, 0); 
+                    setDataVal<T>(val);
+                    break; 
+            }
+        }
+
         Data(DataType dataType) {
             this->dataType = dataType; 
 

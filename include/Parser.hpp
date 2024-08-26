@@ -26,6 +26,8 @@ class Parser {
          * @return The correct Instruction object representation of str. 
          */
       std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallError, instr::InstructionError>> parse(const std::string& str); 
+
+      
 }; 
 
 namespace qi = boost::spirit::qi;
@@ -94,12 +96,8 @@ BOOST_FUSION_ADAPT_STRUCT(
   (instr::Data, data)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(
-  instr::Data,
-  (instr::DataType, dat)
-)
 template <typename Iterator> 
-struct ConstInstrParser : qi::grammar<Iterator, boost::fusion::vector<instr::DataType, boost::variant<int, uint>>(), ascii::space_type, qi::locals<instr::DataType>> {
+struct ConstInstrParser : qi::grammar<Iterator, instr::ConstInstr(), ascii::space_type, qi::locals<instr::DataType>> {
   ConstInstrParser() : ConstInstrParser::base_type(start) {
     using qi::lexeme; 
     using qi::int_; 
@@ -112,14 +110,14 @@ struct ConstInstrParser : qi::grammar<Iterator, boost::fusion::vector<instr::Dat
     using boost::phoenix::at_c;
     
     start %= lexeme[
-      DataTypeParser[at_c<0>(_val) = _a = _1] >> ".const "  >> 
-      ( (qi::eps(_a == instr::DataType::i32) >> int_[at_c<1>(_val) = _1])
-      | (qi::eps(_a == instr::DataType::u32) >> uint_[at_c<1>(_val) = _1])
+      DataTypeParser[_a = _1] >> ".const "  >> 
+      ( (qi::eps(_a == instr::DataType::i32) >> int_[at_c<0>(_val) = boost::phoenix::construct<instr::Data>(_a, _1)])
+      | (qi::eps(_a == instr::DataType::u32) >> uint_[at_c<0>(_val) = boost::phoenix::construct<instr::Data>(_a, _1)])
       )
     ]; 
   }
 
-  qi::rule<Iterator, boost::fusion::vector<instr::DataType, boost::variant<int, uint>>(), ascii::space_type, qi::locals<instr::DataType>> start;
+  qi::rule<Iterator, instr::ConstInstr(), ascii::space_type, qi::locals<instr::DataType>> start;
 }; 
 
 /**
@@ -184,6 +182,30 @@ struct StoreInstrParser : qi::grammar<Iterator, instr::StoreInstr(), ascii::spac
   }
 
   qi::rule<Iterator, instr::StoreInstr(), ascii::space_type> start;
+}; 
+
+/**
+ * Instruction parser 
+ */
+
+template <typename Iterator>
+struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::space_type> {
+  InstructionParser() : InstructionParser::base_type(start) {
+    start = arithInstrParser 
+          | constInstrParser
+          | sizeInstrParser 
+          | loadInstrParser 
+          | storeInstrParser; 
+  }
+
+  // instruction parsers 
+  ArithInstrParser<Iterator> arithInstrParser; 
+  ConstInstrParser<Iterator> constInstrParser; 
+  SizeInstrParser<Iterator> sizeInstrParser; 
+  LoadInstrParser<Iterator> loadInstrParser; 
+  StoreInstrParser<Iterator> storeInstrParser; 
+
+  qi::rule<Iterator, instr::Instruction(), ascii::space_type> start; 
 }; 
 
 #endif // PARSER_HPP_
