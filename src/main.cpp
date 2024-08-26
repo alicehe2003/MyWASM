@@ -56,13 +56,24 @@ int main () {
     std::cout << constInstr << std::endl;
     std::cout << get<0>(constInstr) <<std::endl; 
    
-   // testing parse SizeInstr 
-   SizeInstrParser<std::string::iterator> p1; 
-   std::string str3 = "memory.size"; 
-   SizeInstr dt3; 
-   bool r3 = phrase_parse(str3.begin(), str3.end(), p1, space, dt3); 
+    // testing parse SizeInstr 
+    SizeInstrParser<std::string::iterator> p1; 
+    std::string str3 = "memory.size"; 
+    SizeInstr dt3; 
+    bool r3 = phrase_parse(str3.begin(), str3.end(), p1, space, dt3); 
 
-   assert(r3); 
+    assert(r3); 
+
+    // testing parser LoadInstr 
+    LoadInstrParser<std::string::iterator> p2; 
+    std::string str4 = "u32.load"; 
+    instr::LoadInstr dt4; 
+    bool r4 = phrase_parse(str4.begin(), str4.end(), p2, space, dt4); 
+
+    assert(r4);
+
+    // testing parser StoreInstr 
+     
    
 
 

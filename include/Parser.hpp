@@ -138,6 +138,41 @@ struct SizeInstrParser : qi::grammar<Iterator, SizeInstr(), ascii::space_type> {
     qi::rule<Iterator, SizeInstr(), ascii::space_type> start;
 };
 
+/**
+ * LoadInstr parser 
+ */
+
+BOOST_FUSION_ADAPT_STRUCT(
+  instr::LoadInstr, 
+  (int, index),
+  (instr::DataType, dataType)
+)
+
+namespace ascii = boost::spirit::ascii;
+
+template <typename Iterator>
+struct LoadInstrParser : qi::grammar<Iterator, instr::LoadInstr(), ascii::space_type> {
+  LoadInstrParser() : LoadInstrParser::base_type(start) {
+    using qi::lexeme;
+
+    start %= lexeme[
+              DataTypeParser
+              >> ".load"
+    ];
+  }
+
+  qi::rule<Iterator, instr::LoadInstr(), ascii::space_type> start;
+}; 
+
+
+
+
+/**
+ * StoreInstr parser 
+ */
+
+
+
 
 
 

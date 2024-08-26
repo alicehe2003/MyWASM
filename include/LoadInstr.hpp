@@ -7,6 +7,9 @@ class LoadInstr {
     public: 
         LoadInstr(int index, DataType dataType); 
 
+        LoadInstr(DataType dataType) : dataType(dataType) {}; 
+        LoadInstr() = default; 
+
         int getIndex(); 
 
         DataType getDataType(); 
