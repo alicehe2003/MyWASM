@@ -148,8 +148,6 @@ BOOST_FUSION_ADAPT_STRUCT(
   (instr::DataType, dataType)
 )
 
-namespace ascii = boost::spirit::ascii;
-
 template <typename Iterator>
 struct LoadInstrParser : qi::grammar<Iterator, instr::LoadInstr(), ascii::space_type> {
   LoadInstrParser() : LoadInstrParser::base_type(start) {
@@ -164,17 +162,28 @@ struct LoadInstrParser : qi::grammar<Iterator, instr::LoadInstr(), ascii::space_
   qi::rule<Iterator, instr::LoadInstr(), ascii::space_type> start;
 }; 
 
-
-
-
 /**
  * StoreInstr parser 
  */
 
+BOOST_FUSION_ADAPT_STRUCT(
+  instr::StoreInstr, 
+  (int, index),
+  (instr::DataType, dataType)
+)
 
+template <typename Iterator>
+struct StoreInstrParser : qi::grammar<Iterator, instr::StoreInstr(), ascii::space_type> {
+  StoreInstrParser() : StoreInstrParser::base_type(start) {
+    using qi::lexeme;
 
+    start %= lexeme[
+              DataTypeParser
+              >> ".store"
+    ];
+  }
 
-
-
+  qi::rule<Iterator, instr::StoreInstr(), ascii::space_type> start;
+}; 
 
 #endif // PARSER_HPP_

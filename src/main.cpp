@@ -73,7 +73,12 @@ int main () {
     assert(r4);
 
     // testing parser StoreInstr 
-     
+    StoreInstrParser<std::string::iterator> p3; 
+    std::string str5 = "u32.store"; 
+    instr::StoreInstr dt5; 
+    bool r5 = phrase_parse(str5.begin(), str5.end(), p3, space, dt5); 
+
+    assert(r5);
    
 
 
