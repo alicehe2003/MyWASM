@@ -7,11 +7,14 @@
 #include "SizeInstr.hpp"
 #include "StoreInstr.hpp"
 
+#include <expected>
+#include <variant> 
+
 Parser::Parser() {
 
 }
 
-std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallError, instr::InstructionError>> Parser::parse(const std::string& str) {
+std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallError, instr::InstructionError, ParserError>> Parser::parse(const std::string& str) {
     using boost::spirit::qi::phrase_parse; 
     using boost::spirit::ascii::space; 
     using Iterator = std::string::const_iterator; 
@@ -26,8 +29,8 @@ std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallErro
     if (success && iter == end) {
         return instruction; 
     } else {
-        // error handling 
-        return std::unexpected(instr::DataError::InvalidDataError);
+        // parsing error
+        return std::unexpected(ParserError::InstructionParseError);
     }
 }
 

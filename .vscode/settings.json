@@ -60,5 +60,6 @@
         "vector": "cpp",
         "algorithm": "cpp",
         "*.ipp": "cpp"
-    }
+    },
+    "makefile.configureOnOpen": true
 }

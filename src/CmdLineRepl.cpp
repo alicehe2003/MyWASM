@@ -49,6 +49,14 @@ void CmdLineRepl::processCommand(std::string command) {
                     default: 
                         std::cerr << "Unknown Instruction error." << std::endl; 
                 }
+            } else if constexpr (std::is_same_v<decltype(error), ParserError>) {
+                switch (error) {
+                    case ParserError::InstructionParseError: 
+                        std::cerr << "Boost spirit parsing error." << std::endl; 
+                        break; 
+                    default: 
+                        std::cerr << "Unknown parsing error." << std::endl; 
+                }
             } else {
                 std::cerr << "Unknown error." << std::endl; 
             }

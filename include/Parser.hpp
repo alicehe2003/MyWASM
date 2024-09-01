@@ -14,6 +14,13 @@
 #include <boost/phoenix/fusion.hpp>
 #include <boost/spirit/include/support_istream_iterator.hpp>
 
+/**
+ * Parser errors
+ */
+enum class ParserError {
+    InstructionParseError
+}; 
+
 class Parser {
     public: 
         Parser(); 
@@ -25,8 +32,7 @@ class Parser {
          * 
          * @return The correct Instruction object representation of str. 
          */
-      std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallError, instr::InstructionError>> parse(const std::string& str); 
-
+      std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallError, instr::InstructionError, ParserError>> parse(const std::string& str); 
       
 }; 
 
