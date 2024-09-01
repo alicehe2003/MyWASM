@@ -1,0 +1,189 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/main.o",
+      "src/main.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/main.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/Parser.o",
+      "src/Parser.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/Parser.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/Parser.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/CmdLineRepl.o",
+      "src/CmdLineRepl.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/CmdLineRepl.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/CmdLineRepl.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/Interpreter.o",
+      "src/Interpreter.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/Interpreter.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/Interpreter.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/State.o",
+      "src/State.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/State.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/State.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/ArithInstr.o",
+      "src/ArithInstr.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/ArithInstr.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/ArithInstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/ConstInstr.o",
+      "src/ConstInstr.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/ConstInstr.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/ConstInstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/LoadInstr.o",
+      "src/LoadInstr.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/LoadInstr.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/LoadInstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/SizeInstr.o",
+      "src/SizeInstr.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/SizeInstr.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/SizeInstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/StoreInstr.o",
+      "src/StoreInstr.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/StoreInstr.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/StoreInstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/CallInstr.o",
+      "src/CallInstr.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/CallInstr.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/CallInstr.o"
+  }
+]
