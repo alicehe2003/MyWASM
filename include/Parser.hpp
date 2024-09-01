@@ -190,6 +190,38 @@ struct StoreInstrParser : qi::grammar<Iterator, instr::StoreInstr(), ascii::spac
   qi::rule<Iterator, instr::StoreInstr(), ascii::space_type> start;
 }; 
 
+
+/**
+ * Call instruction parser
+ * call $log 
+ */
+BOOST_FUSION_ADAPT_STRUCT(
+  instr::CallInstr, 
+  (instr::ident, identifier)
+)
+
+template <typename Iterator>
+struct CallInstrParser : qi::grammar<Iterator, instr::CallInstr(), ascii::space_type> {
+  CallInstrParser() : CallInstrParser::base_type(start) {
+        using qi::lit;
+        using qi::_val; 
+        using qi::lexeme; 
+        using qi::char_; 
+        using boost::phoenix::construct; 
+        using qi::_1; 
+
+        ident = lexeme["$" >> +(char_("a-zA-Z_")) [_val += _1]]; 
+
+        start %= lit("call")
+                  >> ident 
+                  [_val = boost::phoenix::construct<instr::CallInstr>(_1)];
+    }
+
+    qi::rule<Iterator, instr::CallInstr(), ascii::space_type> start;
+    qi::rule<Iterator, std::string(), ascii::space_type> ident; 
+}; 
+
+
 /**
  * Instruction parser 
  */
@@ -201,7 +233,8 @@ struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::sp
           | constInstrParser
           | sizeInstrParser 
           | loadInstrParser 
-          | storeInstrParser; 
+          | storeInstrParser
+          | callInstrParser; 
   }
 
   // instruction parsers 
@@ -210,6 +243,7 @@ struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::sp
   SizeInstrParser<Iterator> sizeInstrParser; 
   LoadInstrParser<Iterator> loadInstrParser; 
   StoreInstrParser<Iterator> storeInstrParser; 
+  CallInstrParser<Iterator> callInstrParser; 
 
   qi::rule<Iterator, instr::Instruction(), ascii::space_type> start; 
 }; 

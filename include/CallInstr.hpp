@@ -18,7 +18,9 @@ class CallInstr {
          */
         CallInstr(ident identifier); 
 
-    private: 
+        CallInstr() = default; 
+
+    // private: 
         ident identifier; 
 }; 
 

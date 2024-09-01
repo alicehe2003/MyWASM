@@ -1,5 +1,5 @@
 #include <iostream>
-//#include "CmdLineRepl.hpp"
+#include "CmdLineRepl.hpp"
 #include "Parser.hpp"
 #include "Data.hpp"
 
@@ -15,13 +15,13 @@ using namespace std;
 #include <cassert>
 
 int main () {
-    /*
+    
     cout << "Input WebAssembly command, 'end' to end program. " << endl;
 
     CmdLineRepl repl; 
     // repl.run(); 
     repl.test(); 
-    */ 
+    
 
 //    // testing parse DataType_
 //     instr::DataType data = instr::DataType::u32; 
@@ -86,13 +86,23 @@ int main () {
     // assert(r5);
 
     // testing parser Instruction 
-    instr::Data data(instr::DataType::i32, 5);
-    InstructionParser<std::string::iterator> p4; 
-    std::string str6 = "i32.const 43"; 
-    instr::Instruction dt6; 
-    bool r6 = phrase_parse(str6.begin(), str6.end(), p4, space, dt6); 
+    // instr::Data data(instr::DataType::i32, 5);
+    // InstructionParser<std::string::iterator> p4; 
+    // std::string str6 = "i32.const 43"; 
+    // instr::Instruction dt6; 
+    // bool r6 = phrase_parse(str6.begin(), str6.end(), p4, space, dt6); 
 
-    assert(r6); 
+    // assert(r6); 
+
+    // testing parser CallInstr 
+    // CallInstrParser<std::string::iterator> p5; 
+    // std::string str7 = "call $log"; 
+    // instr::CallInstr dt7; 
+    // bool r7 = phrase_parse(str7.begin(), str7.end(), p5, space, dt7); 
+
+    // assert(r7);
+    // cout << dt7.identifier << endl; 
+    // assert(dt7.identifier == "log"); 
 
     // if (std::holds_alternative<instr::StoreInstr>(dt5)) {
     //     instr::StoreInstr storeInstr = std::get<instr::StoreInstr>(dt5);

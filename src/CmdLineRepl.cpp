@@ -82,6 +82,9 @@ void CmdLineRepl::run() {
 
 void CmdLineRepl::test() {
     // TESTING: create commands and parse 
+
+    // TODO: rewrite tests to use new parser 
+
     std::string callCommand = "call $log"; 
     std::string const10Command = "i32.const 10"; 
     std::string const3Command = "i32.const 3"; 
