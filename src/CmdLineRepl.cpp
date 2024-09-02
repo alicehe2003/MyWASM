@@ -107,28 +107,28 @@ void CmdLineRepl::testInstructions() {
     processCommand(const10Command); 
     processCommand(const3Command); 
     processCommand(addCommand); 
-    std::cout << "Testing add, expecting 13 " << std::endl;  
+    std::cout << "Testing add, expecting 13." << std::endl;  
     processCommand(callCommand); 
     
     processCommand(const5Command); 
     processCommand(subCommand); 
-    std::cout << "Testing sub, expecting 8 " << std::endl; 
+    std::cout << "Testing sub, expecting 8." << std::endl; 
     processCommand(callCommand); 
 
     processCommand(const3Command); 
     processCommand(mulCommand); 
-    std::cout << "Testing mul, expecting 24 " << std::endl; 
+    std::cout << "Testing mul, expecting 24." << std::endl; 
     processCommand(callCommand); 
     
     
     processCommand(const3Command); 
     processCommand(divCommand); 
-    std::cout << "Testing div, expecting 8 " << std::endl; 
+    std::cout << "Testing div, expecting 8." << std::endl; 
     processCommand(callCommand); 
      
     // testing memory size 
     processCommand(sizeCommand); 
-    std::cout << "Testing memory.size, expecting 1024x1024 = 1048576 " << std::endl; 
+    std::cout << "Testing memory.size, expecting 1024x1024 = 1048576." << std::endl; 
     processCommand(callCommand); 
 
     // testing load and store 
@@ -141,7 +141,7 @@ void CmdLineRepl::testInstructions() {
     processCommand(storeCommand); 
     processCommand(const1Command); 
     processCommand(loadCommand); 
-    std::cout << "Testing load and store, expecting 10 " << std::endl; 
+    std::cout << "Testing load and store, expecting 10." << std::endl; 
     processCommand(callCommand); 
 
     // testing negative numbers 
@@ -149,7 +149,7 @@ void CmdLineRepl::testInstructions() {
 
     processCommand(constNeg1Command); 
     processCommand(addCommand);  
-    std::cout << "Testing add on negative number, expecting 9 " << std::endl; 
+    std::cout << "Testing add on negative number, expecting 9." << std::endl; 
     processCommand(callCommand); 
 }
 
