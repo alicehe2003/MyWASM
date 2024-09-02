@@ -5,6 +5,12 @@
 #include "Interpreter.hpp"
 #include "State.hpp"
 
+#include <variant>
+#include <cassert>
+#include <boost/spirit/include/qi.hpp>
+#include <boost/phoenix/operator.hpp>
+#include <boost/fusion/tuple.hpp>
+
 CmdLineRepl::CmdLineRepl() 
     : parser(Parser()), interpreter(Interpreter(State())) {}; 
 
@@ -80,11 +86,13 @@ void CmdLineRepl::run() {
     std::cout << "Ending program. " << std::endl; 
 }
 
-void CmdLineRepl::test() {
+/**
+ * TESTING 
+ */
+
+void CmdLineRepl::testInstructions() {
     // TESTING: create commands and parse 
-
-    // TODO: rewrite tests to use new parser 
-
+    
     std::string callCommand = "call $log"; 
     std::string const10Command = "i32.const 10"; 
     std::string const3Command = "i32.const 3"; 
@@ -95,6 +103,7 @@ void CmdLineRepl::test() {
     std::string divCommand = "i32.div_s"; 
     std::string sizeCommand = "memory.size"; 
 
+    // testing arithmetic instructions 
     processCommand(const10Command); 
     processCommand(const3Command); 
     processCommand(addCommand); 
@@ -117,7 +126,7 @@ void CmdLineRepl::test() {
     std::cout << "Testing div, expecting 8 " << std::endl; 
     processCommand(callCommand); 
      
-    
+    // testing memory size 
     processCommand(sizeCommand); 
     std::cout << "Testing memory.size, expecting 1024x1024 = 1048576 " << std::endl; 
     processCommand(callCommand); 
@@ -142,4 +151,91 @@ void CmdLineRepl::test() {
     processCommand(addCommand);  
     std::cout << "Testing add on negative number, expecting 9 " << std::endl; 
     processCommand(callCommand); 
+}
+
+void CmdLineRepl::testParseInstructions() {
+    // testing parse DataType_
+    instr::DataType data = instr::DataType::u32; 
+    std::string str = "i32"; 
+    DataType_ dt;
+    bool r = parse(str.begin(), str.end(), dt, data); 
+    assert(data == instr::DataType::i32);
+    std::cout << "DataType_ parsing successful." << std::endl; 
+
+    // testing parse ArithOpType_ 
+    instr::ArithOpType opType = instr::ArithOpType::Sub; 
+    std::string str1 = "add"; 
+    ArithOpType_ dt1; 
+    bool r1 = parse(str1.begin(), str1.end(), dt1, opType); 
+    assert(opType == instr::ArithOpType::Add); 
+    std::cout << "ArithOpType_ parsing successful." << std::endl; 
+
+    using boost::spirit::ascii::space;
+    
+    // testing parse ArithInstr
+    ArithInstrParser<std::string::iterator> p; 
+    std::string str2 = "u32.sub"; 
+    instr::ArithInstr dt2; 
+    bool r2 = phrase_parse(str2.begin(), str2.end(), p, space, dt2);
+
+    assert(dt2.dataType == instr::DataType::u32);
+    assert(r2);
+    assert(dt2.opType == instr::ArithOpType::Sub); 
+    std::cout << "ArithInstr parsing successful." << std::endl; 
+
+    // testing parse ConstInstr 
+    std::string input = "u32.const 42"; 
+    ConstInstrParser<std::string::iterator> parser; 
+    instr::ConstInstr dt8; 
+    bool result = phrase_parse(input.begin(), input.end(), parser, ascii::space, dt8); 
+
+    assert(result); 
+    std::cout << "ConstInstr parsing successful." << std::endl; 
+   
+    // testing parse SizeInstr 
+    SizeInstrParser<std::string::iterator> p1; 
+    std::string str3 = "memory.size"; 
+    SizeInstr dt3; 
+    bool r3 = phrase_parse(str3.begin(), str3.end(), p1, space, dt3); 
+
+    assert(r3); 
+    std::cout << "SizeInstr parsing successful." << std::endl; 
+
+    // testing parser LoadInstr 
+    LoadInstrParser<std::string::iterator> p2; 
+    std::string str4 = "u32.load"; 
+    instr::LoadInstr dt4; 
+    bool r4 = phrase_parse(str4.begin(), str4.end(), p2, space, dt4); 
+
+    assert(r4);
+    std::cout << "LoadInstr parsing successful." << std::endl; 
+
+    // testing parser StoreInstr 
+    StoreInstrParser<std::string::iterator> p3; 
+    std::string str5 = "u32.store"; 
+    instr::StoreInstr dt5; 
+    bool r5 = phrase_parse(str5.begin(), str5.end(), p3, space, dt5); 
+
+    assert(r5);
+    std::cout << "StoreInstr parsing successful." << std::endl; 
+
+    // testing parser Instruction 
+    instr::Data data2(instr::DataType::i32, 5);
+    InstructionParser<std::string::iterator> p4; 
+    std::string str6 = "i32.const 43"; 
+    instr::Instruction dt6; 
+    bool r6 = phrase_parse(str6.begin(), str6.end(), p4, space, dt6); 
+
+    assert(r6); 
+    std::cout << "Instruction parsing successful." << std::endl; 
+
+    // testing parser CallInstr 
+    CallInstrParser<std::string::iterator> p5; 
+    std::string str7 = "call $log"; 
+    instr::CallInstr dt7; 
+    bool r7 = phrase_parse(str7.begin(), str7.end(), p5, space, dt7); 
+
+    assert(r7);
+    assert(dt7.identifier == "log"); 
+    std::cout << "CallInstr parsing successful." << std::endl; 
 }

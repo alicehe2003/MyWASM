@@ -16,7 +16,8 @@ class CmdLineRepl {
         void processCommand(std::string command); 
 
         // TODO delete or refactor these tests 
-        void test(); 
+        void testInstructions(); 
+        void testParseInstructions(); 
     
     private: 
         Parser parser; 
