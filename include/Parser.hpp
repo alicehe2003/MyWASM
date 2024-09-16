@@ -2,8 +2,10 @@
 #define PARSER_HPP_
 
 #include "Instruction.hpp"
+#include "Function.hpp"
 #include <expected>
 #include <variant> 
+#include <tuple>
 
 #include <boost/spirit/include/qi.hpp>
 #include <boost/phoenix/core.hpp>
@@ -220,6 +222,56 @@ struct CallInstrParser : qi::grammar<Iterator, instr::CallInstr(), ascii::space_
     qi::rule<Iterator, instr::CallInstr(), ascii::space_type> start;
     qi::rule<Iterator, std::string(), ascii::space_type> ident; 
 }; 
+
+/**
+ * Function parser 
+ * 
+ * Parses given string into function object and places into function table. 
+ */
+
+BOOST_FUSION_ADAPT_STRUCT(
+  Function, 
+  (std::string, name), 
+  (std::optional<instr::DataType>, returnType), 
+  (std::vector<Param>, params),
+  (std::vector<instr::Instruction>, instructions)
+)
+
+template <typename Iterator>
+struct FunctionParser : qi::grammar<Iterator, void(), ascii::space_type> {
+  FunctionParser() : FunctionParser::base_type(start) {
+    using qi::lit;
+    using qi::_val; 
+    using qi::lexeme; 
+    using qi::char_; 
+    using boost::phoenix::construct; 
+    using qi::_1; 
+    using qi::_a; 
+
+    ident = lexeme["$" >> +(char_("a-zA-Z_")) [_val += _1]]; 
+
+    /*
+    param = "("
+      >> lit("param")
+      >> ident[_a = _1]
+      >> DataTypeParser[_val = std::make_tuple(_a, _1)]
+      >> ")"; 
+    */ 
+
+    start %= "(" 
+      >> lit("func")
+      >> ident 
+      >> ")"; 
+
+  }
+
+  qi::rule<Iterator, void(), ascii::space_type> start;
+  qi::rule<Iterator, std::string(), ascii::space_type> ident; 
+  // qi::rule<Iterator, Function::Param(), ascii::space_type> param;
+}; 
+
+
+
 
 
 /**

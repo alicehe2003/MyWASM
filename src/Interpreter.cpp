@@ -181,8 +181,8 @@ void Interpreter::interpret(CallInstr& instruction, Context& context) {
     Function& newFunc = functionTable.at(instruction.identifier); 
     int numParams = newFunc.params.size(); 
     for (int i = numParams - 1; i >= 0; i--) {
-        std::string paramName = get<0>(newFunc.params[i]); 
-        instr::DataType paramType = get<1>(newFunc.params[i]); 
+        std::string paramName = newFunc.params[i].ident; 
+        instr::DataType paramType = newFunc.params[i].dataType; 
 
         // type check 
         if (paramType != context.stack.top().dataType) {

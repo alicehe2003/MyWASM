@@ -23,6 +23,7 @@ int main () {
     repl.testInstructions(); 
     repl.testParseInstructions(); 
     repl.testFunctions(); 
+    repl.testFunctionParser(); 
 
     return 0; 
 }

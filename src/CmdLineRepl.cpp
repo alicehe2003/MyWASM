@@ -245,9 +245,9 @@ void CmdLineRepl::testParseInstructions() {
 
 void CmdLineRepl::testFunctions() {
     instr::DataType type = i32; 
-    std::vector<std::tuple<std::string, instr::DataType>> params; 
-    params.push_back(std::make_tuple("x", type)); 
-    params.push_back(std::make_tuple("y", type)); 
+    std::vector<Param> params; 
+    params.push_back(Param("x", type)); 
+    params.push_back(Param("y", type)); 
     std::vector<instr::Instruction> instructions; 
     ArithInstr addInstr(ArithOpType::Add, type); 
 
@@ -273,4 +273,15 @@ void CmdLineRepl::testFunctions() {
 
     assert(interpreter.state.contexts.top().stack.top().getDataVal()[0] == 3); 
     std::cout << "Simple function call successful." << std::endl; 
+}
+
+void CmdLineRepl::testFunctionParser() {
+    // testing function parser 
+    using boost::spirit::ascii::space;
+    FunctionParser<std::string::iterator> parser; 
+    std::string str = "(func $hello)"; 
+    bool result = phrase_parse(str.begin(), str.end(), parser, space); 
+
+    assert(result); 
+    std::cout << "Simple function parser successful." << std::endl; 
 }
