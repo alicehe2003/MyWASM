@@ -284,4 +284,11 @@ void CmdLineRepl::testFunctionParser() {
 
     assert(result); 
     std::cout << "Simple function parser successful." << std::endl; 
+
+    FunctionParser<std::string::iterator> parser2; 
+    std::string str2 = "(func $hello (param $x i32) (param $y i32))"; 
+    bool result2 = phrase_parse(str2.begin(), str2.end(), parser2, space); 
+
+    assert(result2); 
+    std::cout << "Simple function (no return type) parser successful." << std::endl; 
 }

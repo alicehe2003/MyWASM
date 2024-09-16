@@ -298,7 +298,7 @@ struct FunctionParser : qi::grammar<Iterator, Function(), ascii::space_type> {
       >> lit("func")
       >> ident 
       >> *param 
-      >> result 
+      >> -result 
       >> *instrParser 
       >> ")"; 
   }
