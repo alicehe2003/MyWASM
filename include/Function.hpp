@@ -5,7 +5,7 @@
 #include <optional>
 
 struct Param {
-    Param(std::string ident, instr::DataType dataType); 
+    // Param(std::string ident, instr::DataType dataType); 
 
     std::string ident; 
     instr::DataType dataType; 
@@ -21,7 +21,9 @@ class Function {
      *      type is the data type of the parameter 
      * @param instructions is the list of instructions in the function body 
      */
-    Function(std::string name, instr::DataType returnType, std::vector<Param> params, std::vector<instr::Instruction> instructions);
+    Function() = default; 
+
+    Function(std::string name, std::vector<Param> params, instr::DataType returnType, std::vector<instr::Instruction> instructions);
 
     std::string name; 
     std::optional<instr::DataType> returnType; 

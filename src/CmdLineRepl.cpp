@@ -246,8 +246,8 @@ void CmdLineRepl::testParseInstructions() {
 void CmdLineRepl::testFunctions() {
     instr::DataType type = i32; 
     std::vector<Param> params; 
-    params.push_back(Param("x", type)); 
-    params.push_back(Param("y", type)); 
+    params.push_back({.ident = "x", .dataType = type}); 
+    params.push_back({.ident = "y", .dataType = type}); 
     std::vector<instr::Instruction> instructions; 
     ArithInstr addInstr(ArithOpType::Add, type); 
 
@@ -260,7 +260,7 @@ void CmdLineRepl::testFunctions() {
     instructions.push_back(const2); 
 
     instructions.push_back(addInstr); 
-    Function function("adding", type, params, instructions); 
+    Function function("adding", params, type, instructions); 
 
     std::string adding = "adding"; 
     interpreter.functionTable.insert(std::pair(adding, function)); 
@@ -279,7 +279,7 @@ void CmdLineRepl::testFunctionParser() {
     // testing function parser 
     using boost::spirit::ascii::space;
     FunctionParser<std::string::iterator> parser; 
-    std::string str = "(func $hello)"; 
+    std::string str = "(func $hello (param $x i32) (param $y i32) (result i32) i32.const 3 i32.const 4 i32.add)"; 
     bool result = phrase_parse(str.begin(), str.end(), parser, space); 
 
     assert(result); 

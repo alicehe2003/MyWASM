@@ -36,3 +36,4 @@ std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallErro
 
 ArithOpType_ ArithOpTypeParser;
 DataType_ DataTypeParser;
+

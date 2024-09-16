@@ -224,57 +224,6 @@ struct CallInstrParser : qi::grammar<Iterator, instr::CallInstr(), ascii::space_
 }; 
 
 /**
- * Function parser 
- * 
- * Parses given string into function object and places into function table. 
- */
-
-BOOST_FUSION_ADAPT_STRUCT(
-  Function, 
-  (std::string, name), 
-  (std::optional<instr::DataType>, returnType), 
-  (std::vector<Param>, params),
-  (std::vector<instr::Instruction>, instructions)
-)
-
-template <typename Iterator>
-struct FunctionParser : qi::grammar<Iterator, void(), ascii::space_type> {
-  FunctionParser() : FunctionParser::base_type(start) {
-    using qi::lit;
-    using qi::_val; 
-    using qi::lexeme; 
-    using qi::char_; 
-    using boost::phoenix::construct; 
-    using qi::_1; 
-    using qi::_a; 
-
-    ident = lexeme["$" >> +(char_("a-zA-Z_")) [_val += _1]]; 
-
-    /*
-    param = "("
-      >> lit("param")
-      >> ident[_a = _1]
-      >> DataTypeParser[_val = std::make_tuple(_a, _1)]
-      >> ")"; 
-    */ 
-
-    start %= "(" 
-      >> lit("func")
-      >> ident 
-      >> ")"; 
-
-  }
-
-  qi::rule<Iterator, void(), ascii::space_type> start;
-  qi::rule<Iterator, std::string(), ascii::space_type> ident; 
-  // qi::rule<Iterator, Function::Param(), ascii::space_type> param;
-}; 
-
-
-
-
-
-/**
  * Instruction parser 
  */
 
@@ -299,5 +248,70 @@ struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::sp
 
   qi::rule<Iterator, instr::Instruction(), ascii::space_type> start; 
 }; 
+
+/**
+ * Function parser 
+ * 
+ * Parses given string into function object and places into function table. 
+ */
+
+BOOST_FUSION_ADAPT_STRUCT(
+  Function, 
+  (std::string, name), 
+  (std::vector<Param>, params),
+  (std::optional<instr::DataType>, returnType), 
+  (std::vector<instr::Instruction>, instructions)
+)
+
+BOOST_FUSION_ADAPT_STRUCT(
+  Param,
+  (std::string, ident), 
+  (instr::DataType, dataType)
+)
+
+template <typename Iterator>
+struct FunctionParser : qi::grammar<Iterator, Function(), ascii::space_type> {
+  FunctionParser() : FunctionParser::base_type(start) {
+    using qi::lit;
+    using qi::_val; 
+    using qi::lexeme; 
+    using qi::char_; 
+    using boost::phoenix::construct; 
+    using qi::_1; 
+    using qi::_a; 
+
+    ident = lexeme["$" >> +(char_("a-zA-Z_")) [_val += _1]]; 
+
+    param %= "("
+      >> lit("param")
+      >> ident
+      >> DataTypeParser
+      >> ")"; 
+
+    result %= "("
+      >> lit("result") 
+      >> DataTypeParser 
+      >> ")"; 
+
+  
+    start = "(" 
+      >> lit("func")
+      >> ident 
+      >> *param 
+      >> result 
+      >> *instrParser 
+      >> ")"; 
+  }
+
+  InstructionParser<Iterator> instrParser; 
+  qi::rule<Iterator, Function(), ascii::space_type> start;
+  qi::rule<Iterator, std::string(), ascii::space_type> ident; 
+  qi::rule<Iterator, Param(), ascii::space_type> param;
+  qi::rule<Iterator, instr::DataType(), ascii::space_type> result; 
+}; 
+
+
+
+
 
 #endif // PARSER_HPP_
