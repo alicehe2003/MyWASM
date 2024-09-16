@@ -6,9 +6,13 @@
 #include <variant> 
 #include <vector> 
 #include "Data.hpp"
+#include <cassert>
 
-Interpreter::Interpreter(State state) {
-    this->state = state; 
+Interpreter::Interpreter() {
+    Context context; 
+    state.contexts.push(context); 
+
+    assert(!state.contexts.empty()); 
 }
 
 template <typename T>
@@ -24,27 +28,37 @@ T Interpreter::getValidData(Data& data) {
 }
 
 void Interpreter::interpret(Instruction& instruction) {
-    std::visit([&](auto&& arg){ interpret(arg); }, instruction); 
+    assert(!state.contexts.empty()); 
+
+    Context& curr = state.contexts.top();
+
+    std::visit([&](auto&& arg){ interpret(arg, curr); }, instruction); 
+
+    curr.instrIndex++; 
 }
 
-void Interpreter::interpret(ConstInstr& instruction) { 
-    state.pushToStack(instruction.getData()); 
+void Interpreter::interpret(ConstInstr& instruction, Context& context) { 
+    context.stack.push(instruction.getData()); 
 }
 
-void Interpreter::interpret(ArithInstr& instruction) {
+void Interpreter::interpret(ArithInstr& instruction, Context& context) {
 
     ArithOpType opType = instruction.getArithOpType(); 
     DataType dataType = instruction.getDatatType(); 
 
     // get 2 numbers from top of stack 
-    Data data2 = state.getFromStack(); 
-    Data data1 = state.getFromStack(); 
+    Data data2 = context.stack.top(); 
+    context.stack.pop(); 
+    Data data1 = context.stack.top();
+    context.stack.pop(); 
     
+    /* CHECK IF CORRECT DATA TYPE AS INSTR 
     auto isSameSize = Data::isSameDataSize(data1, data2); 
 
     if (!isSameSize.has_value() && isSameSize.error() == DataError::DataSizeMismatchError) {
         std::cerr << "Data size mismatch error. " << std::endl;
     }
+    */ 
 
     Data result(dataType); 
 
@@ -118,26 +132,29 @@ void Interpreter::interpret(ArithInstr& instruction) {
             break; 
     }
 
-    state.pushToStack(result); 
+    context.stack.push(result); 
 }
 
-void Interpreter::interpret(SizeInstr& instruction) {
+void Interpreter::interpret(SizeInstr& instruction, Context& context) {
     Data sizeData(u32);
     sizeData.setDataVal(state.size()); 
-    state.pushToStack(sizeData);  
+    context.stack.push(sizeData); 
 }
 
-void Interpreter::interpret(LoadInstr& instruction) {
-    Data dataOffset = state.getFromStack(); 
+void Interpreter::interpret(LoadInstr& instruction, Context& context) {
+    Data dataOffset = context.stack.top(); 
+    context.stack.pop(); 
     int offset = getValidData<int>(dataOffset); 
     
     Data valueInMemory = state.loadFromMemory(offset, instruction.getDataType()); 
-    state.pushToStack(valueInMemory); 
+    context.stack.push(valueInMemory); 
 }
 
-void Interpreter::interpret(StoreInstr& instruction) {
-    Data dataVal = state.getFromStack(); 
-    Data dataOffset = state.getFromStack(); 
+void Interpreter::interpret(StoreInstr& instruction, Context& context) {
+    Data dataVal = context.stack.top(); 
+    context.stack.pop(); 
+    Data dataOffset = context.stack.top(); 
+    context.stack.pop(); 
     int offset = getValidData<int>(dataOffset); 
 
     auto isSameType = Data::isSameDataSize(instruction.getDataType(), dataVal.getDataType()); 
@@ -149,9 +166,62 @@ void Interpreter::interpret(StoreInstr& instruction) {
     state.storeInMemory(offset, dataVal); 
 }
 
-void Interpreter::interpret(CallInstr& instruction) {
-    Data top = state.topOfStack(); 
-    int topValue = getValidData<int>(top); 
+void Interpreter::interpret(CallInstr& instruction, Context& context) {
 
-    std::cout << topValue << std::endl; 
+    if (instruction.identifier == "log") {
+        Data top = context.stack.top(); 
+        int topValue = getValidData<int>(top); 
+        std::cout << topValue << std::endl; 
+        return; 
+    } 
+
+    // create new context 
+
+    Context newContext; 
+    newContext.instrIndex = 0; 
+
+    // number of params the function takes in 
+    Function& newFunc = functionTable.at(instruction.identifier); 
+    int numParams = newFunc.params.size(); 
+    for (int i = numParams - 1; i >= 0; i--) {
+        std::string paramName = get<0>(newFunc.params[i]); 
+        instr::DataType paramType = get<1>(newFunc.params[i]); 
+
+        // type check 
+        if (paramType != context.stack.top().dataType) {
+            // Type Error 
+        }
+
+        newContext.params[paramName] = context.stack.top(); 
+        context.stack.pop(); 
+    }
+
+    state.contexts.push(newContext); 
+
+    // execute function call 
+    Context currContext = state.contexts.top(); 
+
+    for (Instruction instr : currContext.func->instructions) {
+        interpret(instr); 
+        currContext.instrIndex++; 
+    }
+
+    // handle return 
+    bool hasReturnVal = currContext.func->returnType.has_value(); 
+    int contextStackSize = currContext.stack.size(); 
+
+    if (hasReturnVal) {
+        if (contextStackSize != 1) {
+            // Error: incorrect stack size 
+        }
+        // put return val on prev context's stack and remove curr context 
+        instr::Data returnVal = currContext.stack.top(); 
+        state.contexts.pop(); 
+        state.contexts.top().stack.push(returnVal); 
+    } else {
+        if (contextStackSize != 0) {
+            // Error: incorrect stack size 
+        }
+    }
+    
 }

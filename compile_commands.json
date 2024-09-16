@@ -185,5 +185,22 @@
     "directory": "/Users/alicehe/Desktop/MyWASM",
     "file": "/Users/alicehe/Desktop/MyWASM/src/CallInstr.cpp",
     "output": "/Users/alicehe/Desktop/MyWASM/obj/CallInstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-c",
+      "-Iinclude",
+      "-I/opt/homebrew/opt/boost/include",
+      "-std=c++2b",
+      "-g",
+      "-fsanitize=address",
+      "-o",
+      "obj/Function.o",
+      "src/Function.cpp"
+    ],
+    "directory": "/Users/alicehe/Desktop/MyWASM",
+    "file": "/Users/alicehe/Desktop/MyWASM/src/Function.cpp",
+    "output": "/Users/alicehe/Desktop/MyWASM/obj/Function.o"
   }
 ]

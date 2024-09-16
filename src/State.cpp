@@ -60,17 +60,4 @@ Data State::loadFromMemory(int offset, DataType dataType) {
     return data; 
 }
 
-void State::pushToStack(Data value) {
-    stk.push(value); 
-}
 
-Data State::getFromStack() {
-    Data value = stk.top(); 
-    stk.pop(); 
-    return value; 
-}
-
-Data State::topOfStack() {
-    Data value = stk.top(); 
-    return value; 
-}

@@ -12,8 +12,9 @@
 #include <boost/fusion/tuple.hpp>
 
 CmdLineRepl::CmdLineRepl() 
-    : parser(Parser()), interpreter(Interpreter(State())) {}; 
-
+    : parser(Parser()) {
+        assert(!interpreter.state.contexts.empty()); 
+    }; 
 
 void CmdLineRepl::processCommand(std::string command) {
     auto commandResult = parser.parse(command);
