@@ -15,8 +15,6 @@ class Context {
     public: 
 
         std::stack<instr::Data> stack; 
-        Function* func; 
-        int instrIndex; 
         std::unordered_map<std::string, instr::Data> params; 
 }; 
 

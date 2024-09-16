@@ -59,7 +59,8 @@
         "variant": "cpp",
         "vector": "cpp",
         "algorithm": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "type_traits": "cpp"
     },
     "makefile.configureOnOpen": true
 }

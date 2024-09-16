@@ -33,8 +33,6 @@ void Interpreter::interpret(Instruction& instruction) {
     Context& curr = state.contexts.top();
 
     std::visit([&](auto&& arg){ interpret(arg, curr); }, instruction); 
-
-    curr.instrIndex++; 
 }
 
 void Interpreter::interpret(ConstInstr& instruction, Context& context) { 
@@ -178,7 +176,6 @@ void Interpreter::interpret(CallInstr& instruction, Context& context) {
     // create new context 
 
     Context newContext; 
-    newContext.instrIndex = 0; 
 
     // number of params the function takes in 
     Function& newFunc = functionTable.at(instruction.identifier); 
@@ -199,15 +196,14 @@ void Interpreter::interpret(CallInstr& instruction, Context& context) {
     state.contexts.push(newContext); 
 
     // execute function call 
-    Context currContext = state.contexts.top(); 
+    Context& currContext = state.contexts.top(); 
 
-    for (Instruction instr : currContext.func->instructions) {
+    for (Instruction instr : newFunc.instructions) {
         interpret(instr); 
-        currContext.instrIndex++; 
     }
 
     // handle return 
-    bool hasReturnVal = currContext.func->returnType.has_value(); 
+    bool hasReturnVal = newFunc.returnType.has_value(); 
     int contextStackSize = currContext.stack.size(); 
 
     if (hasReturnVal) {

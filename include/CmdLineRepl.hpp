@@ -18,8 +18,9 @@ class CmdLineRepl {
         // TODO delete or refactor these tests 
         void testInstructions(); 
         void testParseInstructions(); 
+        void testFunctions(); 
     
-    private: 
+    // private: 
         Parser parser; 
         Interpreter interpreter; 
 }; 

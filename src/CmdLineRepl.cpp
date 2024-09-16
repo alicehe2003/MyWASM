@@ -11,6 +11,8 @@
 #include <boost/phoenix/operator.hpp>
 #include <boost/fusion/tuple.hpp>
 
+#include <tuple>
+
 CmdLineRepl::CmdLineRepl() 
     : parser(Parser()) {
         assert(!interpreter.state.contexts.empty()); 
@@ -239,4 +241,36 @@ void CmdLineRepl::testParseInstructions() {
     assert(r7);
     assert(dt7.identifier == "log"); 
     std::cout << "CallInstr parsing successful." << std::endl; 
+}
+
+void CmdLineRepl::testFunctions() {
+    instr::DataType type = i32; 
+    std::vector<std::tuple<std::string, instr::DataType>> params; 
+    params.push_back(std::make_tuple("x", type)); 
+    params.push_back(std::make_tuple("y", type)); 
+    std::vector<instr::Instruction> instructions; 
+    ArithInstr addInstr(ArithOpType::Add, type); 
+
+    instr::Data data1(type, 1); 
+    instr::Data data2(type, 2); 
+    instr::ConstInstr const1(data1); 
+    instr::ConstInstr const2(data2); 
+
+    instructions.push_back(const1); 
+    instructions.push_back(const2); 
+
+    instructions.push_back(addInstr); 
+    Function function("adding", type, params, instructions); 
+
+    std::string adding = "adding"; 
+    interpreter.functionTable.insert(std::pair(adding, function)); 
+
+    instr::CallInstr call("adding"); 
+
+    Instruction instruction(call); 
+
+    interpreter.interpret(instruction); 
+
+    assert(interpreter.state.contexts.top().stack.top().getDataVal()[0] == 3); 
+    std::cout << "Simple function call successful." << std::endl; 
 }

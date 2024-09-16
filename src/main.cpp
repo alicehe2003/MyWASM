@@ -22,6 +22,7 @@ int main () {
     // repl.run(); 
     repl.testInstructions(); 
     repl.testParseInstructions(); 
+    repl.testFunctions(); 
 
     return 0; 
 }
