@@ -184,7 +184,7 @@ void Interpreter::interpret(CallInstr& instruction, Context& context) {
         std::string paramName = newFunc.params[i].ident; 
         instr::DataType paramType = newFunc.params[i].dataType; 
 
-        // type check 
+        // type check for params
         if (paramType != context.stack.top().dataType) {
             // Type Error 
         }
@@ -210,6 +210,13 @@ void Interpreter::interpret(CallInstr& instruction, Context& context) {
         if (contextStackSize != 1) {
             // Error: incorrect stack size 
         }
+
+        // type check for return 
+        DataType returnType = currContext.stack.top().dataType; 
+        if (newFunc.returnType != returnType) {
+            // Type error 
+        }
+
         // put return val on prev context's stack and remove curr context 
         instr::Data returnVal = currContext.stack.top(); 
         state.contexts.pop(); 
