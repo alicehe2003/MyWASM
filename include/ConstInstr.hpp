@@ -3,6 +3,10 @@
 #include "Data.hpp"
 
 namespace instr {
+/**
+ * @brief Const instruction. 
+ * @author Alice He 
+ */
 class ConstInstr {
     public: 
         ConstInstr(Data data); 
@@ -13,7 +17,6 @@ class ConstInstr {
 
         Data getData(); 
 
-    // private: 
         Data data; 
 }; 
 }

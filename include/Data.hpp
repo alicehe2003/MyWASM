@@ -27,6 +27,9 @@ enum class DataError {
     DataTypeMismatchError
 }; 
 
+/**
+ * @brief Represents a piece of data, including information on data type and data value. 
+ */
 class Data {
     public: 
         Data() = default;
@@ -86,6 +89,10 @@ class Data {
             return dataVal; 
         }
 
+        /**
+         * Interprets the data, returning either type T or a DataError upon fail.
+         * Fails when the size of given type T is different than the size of the data's stored type. 
+         */
         template <typename T> 
         std::expected<T, DataError> interpretData() {
             if (dataVal.size() != sizeof(T)) {
@@ -134,9 +141,6 @@ class Data {
             return std::unexpected(DataError::DataTypeMismatchError); 
         }
 
-
-
-    // private: 
         std::vector<uint8_t> dataVal; 
         DataType dataType; 
 }; 

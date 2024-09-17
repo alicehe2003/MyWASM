@@ -44,7 +44,6 @@ class ArithInstr {
          */
         DataType getDatatType(); 
 
-    // private: 
         ArithOpType opType; 
         DataType dataType; 
 }; 

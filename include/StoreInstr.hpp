@@ -3,6 +3,9 @@
 #include "Data.hpp"
 
 namespace instr {
+/**
+ * @brief Store instruction. Used to store value in memory. 
+ */
 class StoreInstr {
     public: 
         StoreInstr(int index, DataType dataType); 

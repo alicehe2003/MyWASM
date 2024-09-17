@@ -5,10 +5,17 @@
 namespace instr {
 using ident = std::string; 
 
+/**
+ * @brief Error type(s) for CallInstr 
+ */
 enum class CallError {
     InvalidIdentifierError
 }; 
 
+/**
+ * @brief Call instruction 
+ * @author Alice He 
+ */
 class CallInstr {
     public: 
         /**
@@ -20,7 +27,6 @@ class CallInstr {
 
         CallInstr() = default; 
 
-    // private: 
         ident identifier; 
 }; 
 

@@ -4,6 +4,10 @@
 #include "Interpreter.hpp"
 #include "State.hpp"
 
+/**
+ * @brief Command line repl for processing each command. 
+ * Contains functions for testing purposes. 
+ */
 class CmdLineRepl {
     public: 
         CmdLineRepl(); 
@@ -15,7 +19,9 @@ class CmdLineRepl {
          */
         void processCommand(std::string command); 
 
-        // TODO delete or refactor these tests 
+        /**
+         * Testing functions. 
+         */
         void testInstructions(); 
         void testParseInstructions(); 
         void testFunctions(); 
@@ -23,7 +29,6 @@ class CmdLineRepl {
         void testLocalInstr(); 
         void testInstructionsMore(); 
     
-    // private: 
         Parser parser; 
         Interpreter interpreter; 
 }; 

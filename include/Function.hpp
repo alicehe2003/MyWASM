@@ -4,6 +4,9 @@
 #include "Instruction.hpp"
 #include <optional>
 
+/**
+ * @brief Represents a parameter for a function object, including the parameter name and data type. 
+ */
 struct Param {
     // Param(std::string ident, instr::DataType dataType); 
 

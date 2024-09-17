@@ -362,7 +362,4 @@ struct FunctionParser : qi::grammar<Iterator, Function(), ascii::space_type> {
 }; 
 
 
-
-
-
 #endif // PARSER_HPP_

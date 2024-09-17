@@ -4,6 +4,9 @@
 
 using namespace instr;
 
+/**
+ * @brief Interpreter class used to manipulate state based on given command. 
+ */
 class Interpreter {
     public: 
         Interpreter(); 
@@ -65,7 +68,6 @@ class Interpreter {
             functionTable.insert({funcName, func}); 
         }; 
 
-    // private: TODO make private 
         State state; 
         std::unordered_map<std::string, Function> functionTable; 
 }; 

@@ -3,6 +3,9 @@
 #include "Data.hpp"
 
 namespace instr {
+/**
+ * @brief Load intruction. Loads data to memory. 
+ */
 class LoadInstr {
     public: 
         LoadInstr(int index, DataType dataType); 
