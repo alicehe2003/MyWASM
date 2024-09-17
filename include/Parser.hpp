@@ -34,7 +34,7 @@ class Parser {
          * 
          * @return The correct Instruction object representation of str. 
          */
-      std::expected<instr::Instruction, std::variant<instr::DataError, instr::CallError, instr::InstructionError, ParserError>> parse(const std::string& str); 
+      std::expected<std::variant<instr::Instruction, Function>, std::variant<instr::DataError, instr::CallError, instr::InstructionError, ParserError>> parse(const std::string& str); 
       
 }; 
 
@@ -260,13 +260,13 @@ struct LocalInstrParser : qi::grammar<Iterator, instr::LocalInstr(), ascii::spac
 template <typename Iterator>
 struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::space_type> {
   InstructionParser() : InstructionParser::base_type(start) {
-    start = arithInstrParser 
+    start = localInstrParser
+          | arithInstrParser 
           | constInstrParser
           | sizeInstrParser 
           | loadInstrParser 
           | storeInstrParser
-          | callInstrParser
-          | localInstrParser; 
+          | callInstrParser; 
   }
 
   // instruction parsers 
@@ -276,7 +276,7 @@ struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::sp
   LoadInstrParser<Iterator> loadInstrParser; 
   StoreInstrParser<Iterator> storeInstrParser; 
   CallInstrParser<Iterator> callInstrParser; 
-  LoadInstrParser<Iterator> localInstrParser; 
+  LocalInstrParser<Iterator> localInstrParser; 
 
   qi::rule<Iterator, instr::Instruction(), ascii::space_type> start; 
 }; 
@@ -312,6 +312,11 @@ struct FunctionParser : qi::grammar<Iterator, Function(), ascii::space_type> {
     using qi::_1; 
     using qi::_a; 
 
+    using qi::on_error;
+    using qi::fail;
+    using boost::phoenix::val;
+    using namespace qi::labels;
+
     ident = lexeme["$" >> +(char_("a-zA-Z_")) [_val += _1]]; 
 
     param %= "("
@@ -327,12 +332,26 @@ struct FunctionParser : qi::grammar<Iterator, Function(), ascii::space_type> {
 
   
     start = "(" 
-      >> lit("func")
-      >> ident 
-      >> *param 
-      >> -result 
-      >> *instrParser 
-      >> ")"; 
+      > lit("func")
+      > ident 
+      > *param 
+      > -result 
+      > *instrParser
+      > ")"; 
+
+    ident.name("ident"); 
+    param.name("param"); 
+    result.name("result"); 
+    start.name("start"); 
+
+    on_error<fail> (
+      start, 
+      std::cout << val("Boost error. Expecting ")
+                << _4 
+                << val(" but got ") 
+                << construct<std::string>(_3, _2)
+                << std::endl
+    ); 
   }
 
   InstructionParser<Iterator> instrParser; 

@@ -25,6 +25,7 @@ int main () {
     // repl.testFunctions(); 
     repl.testFunctionParser(); 
     repl.testLocalInstr(); 
+    repl.testInstructionsMore(); 
 
     return 0; 
 }

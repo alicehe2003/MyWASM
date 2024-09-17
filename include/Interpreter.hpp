@@ -57,6 +57,14 @@ class Interpreter {
          */
         void interpret(LocalInstr& instruction, Context& context); 
 
+        /**
+         * Add function definition. 
+         */
+        void addFunctionDef(Function func) {
+            std::string funcName = func.name; 
+            functionTable.insert({funcName, func}); 
+        }; 
+
     // private: TODO make private 
         State state; 
         std::unordered_map<std::string, Function> functionTable; 

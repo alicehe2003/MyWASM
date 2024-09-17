@@ -226,7 +226,6 @@ void Interpreter::interpret(CallInstr& instruction, Context& context) {
             std::cerr << "Incorrect stack size." << std::endl; 
         }
     }
-
 }
 
 void Interpreter::interpret(LocalInstr& instruction, Context& context) {

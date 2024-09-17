@@ -21,9 +21,17 @@ CmdLineRepl::CmdLineRepl()
 void CmdLineRepl::processCommand(std::string command) {
     auto commandResult = parser.parse(command);
 
-    if (commandResult.has_value()) {
-        Instruction validCommand = commandResult.value();
-        interpreter.interpret(validCommand);
+        if (commandResult.has_value()) {
+            std::visit([this](auto&& parsedResult) {
+            using T = std::decay_t<decltype(parsedResult)>;
+
+            if constexpr (std::is_same_v<T, Instruction>) {
+                interpreter.interpret(parsedResult);
+            } else if constexpr (std::is_same_v<T, Function>) {
+                interpreter.addFunctionDef(parsedResult);
+            }
+        }, commandResult.value());
+
     } else {
         std::visit([](const auto& error) {
             if constexpr (std::is_same_v<decltype(error), DataError>) {
@@ -298,12 +306,37 @@ void CmdLineRepl::testLocalInstr() {
     // testing local.get $x 
 
     using boost::spirit::ascii::space;
-    LocalInstrParser<std::string::iterator> parser; 
+    InstructionParser<std::string::iterator> parser; 
     std::string str = "local.get $x"; 
-    bool r = phrase_parse(str.begin(), str.end(), parser, space); 
+    auto iter = str.begin(); 
+    auto end = str.end(); 
+    Instruction instr; 
+    bool r = phrase_parse(iter, end, parser, space, instr); 
 
     assert(r);
+    assert(iter == end); 
     std::cout << "Local get parsing successful." << std::endl; 
 }
 
+void CmdLineRepl::testInstructionsMore() {
+    // testing more commands, with focus on functions and local 
+    std::cout << "TESTING functions and local." << std::endl; 
 
+    std::string const2 = "i32.const 2"; 
+    std::string const5 = "i32.const 5"; 
+    std::string identFunc = "(func $identFunc (param $x i32) (result i32) local.get $x)"; 
+    std::string callFunc = "call $identFunc"; 
+    std::string logCmd = "call $log"; 
+
+    std::cout << "Adding i32.const 2 command." << std::endl; 
+    processCommand(const2); 
+    std::cout << "Adding i32.const 5 command." << std::endl; 
+    processCommand(const5); 
+    std::cout << "Processing identFunc command." << std::endl; 
+    processCommand(identFunc); 
+
+    std::cout << "Processing callFunc command." << std::endl; 
+    processCommand(callFunc); 
+    std::cout << "Testing function call and local get, expecting 5" << std::endl; 
+    processCommand(logCmd); 
+}
