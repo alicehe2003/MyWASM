@@ -1,3 +1,3 @@
 #include "LocalInstr.hpp"
 
-LocalInstr::LocalInstr(std::string varName) : varName(varName) {}; 
+instr::LocalInstr::LocalInstr(std::string varName) : varName(varName) {}; 

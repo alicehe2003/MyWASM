@@ -1,6 +1,7 @@
 #pragma once 
 #include <iostream>
 
+namespace instr {
 /**
  * Support instructions of the form local.get $varName. 
  */
@@ -11,3 +12,4 @@ class LocalInstr {
 
         std::string varName; 
 }; 
+}

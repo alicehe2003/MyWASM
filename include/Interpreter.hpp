@@ -52,6 +52,11 @@ class Interpreter {
          */
         void interpret(CallInstr& instruction, Context& context); 
 
+        /**
+         * Interpret local.get instruction. 
+         */
+        void interpret(LocalInstr& instruction, Context& context); 
+
     // private: TODO make private 
         State state; 
         std::unordered_map<std::string, Function> functionTable; 

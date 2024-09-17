@@ -272,6 +272,7 @@ void CmdLineRepl::testFunctions() {
     interpreter.interpret(instruction); 
 
     assert(interpreter.state.contexts.top().stack.top().getDataVal()[0] == 3); 
+
     std::cout << "Simple function call successful." << std::endl; 
 }
 
@@ -292,3 +293,17 @@ void CmdLineRepl::testFunctionParser() {
     assert(result2); 
     std::cout << "Simple function (no return type) parser successful." << std::endl; 
 }
+
+void CmdLineRepl::testLocalInstr() {
+    // testing local.get $x 
+
+    using boost::spirit::ascii::space;
+    LocalInstrParser<std::string::iterator> parser; 
+    std::string str = "local.get $x"; 
+    bool r = phrase_parse(str.begin(), str.end(), parser, space); 
+
+    assert(r);
+    std::cout << "Local get parsing successful." << std::endl; 
+}
+
+

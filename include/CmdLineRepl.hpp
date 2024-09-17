@@ -19,8 +19,8 @@ class CmdLineRepl {
         void testInstructions(); 
         void testParseInstructions(); 
         void testFunctions(); 
-
         void testFunctionParser(); 
+        void testLocalInstr(); 
     
     // private: 
         Parser parser; 

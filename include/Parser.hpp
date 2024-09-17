@@ -224,6 +224,36 @@ struct CallInstrParser : qi::grammar<Iterator, instr::CallInstr(), ascii::space_
 }; 
 
 /**
+ * Local get instruction parser 
+ * local.get $varName 
+ */
+BOOST_FUSION_ADAPT_STRUCT(
+  instr::LocalInstr, 
+  (std::string, varName)
+)
+
+template <typename Iterator> 
+struct LocalInstrParser : qi::grammar<Iterator, instr::LocalInstr(), ascii::space_type> {
+  LocalInstrParser() : LocalInstrParser::base_type(start) {
+        using qi::lit;
+        using qi::_val; 
+        using qi::lexeme; 
+        using qi::char_; 
+        using boost::phoenix::construct; 
+        using qi::_1; 
+
+        ident = lexeme["$" >> +(char_("a-zA-Z_")) [_val += _1]]; 
+
+        start %= lit("local.get")
+                  >> ident 
+                  [_val = boost::phoenix::construct<instr::LocalInstr>(_1)];
+  }
+
+  qi::rule<Iterator, instr::LocalInstr(), ascii::space_type> start; 
+  qi::rule<Iterator, std::string(), ascii::space_type> ident; 
+}; 
+
+/**
  * Instruction parser 
  */
 
@@ -235,7 +265,8 @@ struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::sp
           | sizeInstrParser 
           | loadInstrParser 
           | storeInstrParser
-          | callInstrParser; 
+          | callInstrParser
+          | localInstrParser; 
   }
 
   // instruction parsers 
@@ -245,6 +276,7 @@ struct InstructionParser : qi::grammar<Iterator, instr::Instruction(), ascii::sp
   LoadInstrParser<Iterator> loadInstrParser; 
   StoreInstrParser<Iterator> storeInstrParser; 
   CallInstrParser<Iterator> callInstrParser; 
+  LoadInstrParser<Iterator> localInstrParser; 
 
   qi::rule<Iterator, instr::Instruction(), ascii::space_type> start; 
 }; 

@@ -226,5 +226,19 @@ void Interpreter::interpret(CallInstr& instruction, Context& context) {
             std::cerr << "Incorrect stack size." << std::endl; 
         }
     }
-    
+
 }
+
+void Interpreter::interpret(LocalInstr& instruction, Context& context) {
+    std::string varName = instruction.varName; 
+    
+    // check if variable with name is in context param list 
+    if (context.params.find(varName) != context.params.end()) {
+        // add value of varName to local stack 
+        instr::Data val = context.params.at(varName); 
+        context.stack.push(val); 
+    } else {
+        std::cerr << "Undefined parameter name." << std::endl; 
+    }
+}
+    
